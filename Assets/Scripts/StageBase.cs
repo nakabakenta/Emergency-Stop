@@ -1,17 +1,17 @@
+using System.Threading;
 using UnityEngine;
 
 public class StageBase : MonoBehaviour
 {
+    public int score;
     protected float baseSpeed;
     protected int stageLevel;
     protected string stageName;
+    protected string gameMode; //ゲームモード
+    protected string gamePhase;//ゲームフェイズ
 
-    enum enumStageLevel
-    {
-        TestRun,    //
-        Local,      //
-        SemiExpress,//
-    }
+    public float limit; //限界値
+    private float timer;//タイマー
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

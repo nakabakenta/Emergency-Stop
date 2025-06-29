@@ -10,6 +10,7 @@ public class TrainBase : MonoBehaviour
         public string trainType;    //列車タイプ
         public float acceleration;  //加速
         public string formationName;//編成名
+        public string status;       //状態
     }
     public bool[] pantograph        //パンタグラフ(前・後)
         = new bool[2];
@@ -22,6 +23,7 @@ public class TrainBase : MonoBehaviour
     //構造体変数
     public StructTrain structTrain;//列車
 
+    //列車タイプ一覧
     enum enumTrainType
     {
         M,

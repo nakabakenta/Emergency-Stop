@@ -7,6 +7,9 @@ TagManager:
   - Train
   - 'Coupler '
   - Object
+  - Ground
+  - Wiring
+  - Pantograph
   layers:
   - Default
   - TransparentFX

@@ -6,7 +6,7 @@ public class ObjectBase : MonoBehaviour
     [System.Serializable]
     public struct StructObject
     {
-        [Header("ステータス")]
+        [Header("ステータス(耐久,重量,弾力)")]
         public float endurance; //耐久
         public float weight;    //重量
         public float elasticity;//弾力
