@@ -29,15 +29,17 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = objectDistance;
-
-        Vector3 viewPortPosition = Camera.main.ScreenToViewportPoint(new Vector3(mousePosition.x, mousePosition.y, mousePosition.z));
-        //移動限界位を設定する
+        //マウス位置を画面座標で取得する
+        Vector2 mousePosition = Input.mousePosition;
+        //画面座標をビューポート座標に変換する
+        Vector2 viewPortPosition = Camera.main.ScreenToViewportPoint(mousePosition);
+        //移動限界値を設定する
         viewPortPosition.x = Mathf.Clamp(viewPortPosition.x, positionLimit[0].x, positionLimit[1].x);
         viewPortPosition.y = Mathf.Clamp(viewPortPosition.y, positionLimit[0].y, positionLimit[1].y);
         //ビューポート座標をワールド座標に変換する
-        Vector3 worldPosition = Camera.main.ViewportToWorldPoint(new Vector3(viewPortPosition.x, viewPortPosition.y, viewPortPosition.z));
+        Vector3 worldPosition = Camera.main.ViewportToWorldPoint(new Vector3(viewPortPosition.x, viewPortPosition.y, objectDistance));
+        //Z軸を固定（オブジェクトのZ軸を調整）
+        worldPosition.z = this.transform.position.z + objectDistance;
 
         if (objNowObject == null)
         {
@@ -45,7 +47,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            float scrollWheel = Input.GetAxis("Mouse ScrollWheel");//マウスホイール回転方向
+            float scrollWheel = Input.GetAxis("Mouse ScrollWheel");//マウスホイールの回転量
             objNowObject.transform.position = worldPosition;
 
             if(scrollWheel != 0)
@@ -56,7 +58,16 @@ public class PlayerController : MonoBehaviour
             //マウス左クリック
             if (Input.GetMouseButtonDown(0))
             {
+                BoxCollider objCollider = objNowObject.GetComponent<BoxCollider>();
+                Rigidbody objRigidBody = objNowObject.GetComponent<Rigidbody>();
+                objCollider.isTrigger = false;
+                objRigidBody.isKinematic = false;
                 objNowObject = null;
+            }
+            //マウスホイールクリック
+            if (Input.GetMouseButtonDown(2))
+            {
+                objNowObject.transform.rotation = Quaternion.identity;//回転を0にする
             }
         }
 
@@ -85,44 +96,29 @@ public class PlayerController : MonoBehaviour
     Quaternion RotationObject(float scrollWheel)
     {
         Vector3 objectAngle = Vector3.zero;
+        bool inputKey = false;//キー入力確認
 
-        KeyCode? nowKey = null;//現在のキー
-        KeyCode[] inputKey = { KeyCode.X, KeyCode.Y, KeyCode.Z };
-
-        if (nowKey != null)
+        if (Input.GetKey(KeyCode.X))//Xキーが押されている場合
         {
-            if (Input.GetKeyUp((KeyCode)nowKey))
-            {
-                nowKey = null;
-            }
+            objectAngle.x = (scrollWheel > 0) ? addObjectRotation : -addObjectRotation;
+            inputKey = true;
+        }
+        if (Input.GetKey(KeyCode.Y))//Yキーが押されている場合
+        {
+            objectAngle.y = (scrollWheel > 0) ? addObjectRotation : -addObjectRotation;
+            inputKey = true;
+        }
+        if (Input.GetKey(KeyCode.Z))//Zキーが押されている場合
+        {
+            objectAngle.z = (scrollWheel > 0) ? addObjectRotation : -addObjectRotation;
+            inputKey = true;
+        }
+        if(inputKey == false)//キー入力がない場合
+        {
+            objectAngle.y = (scrollWheel > 0) ? addObjectRotation : -addObjectRotation;
         }
 
-        foreach (KeyCode key in inputKey)
-        {
-            if (Input.GetKey(key))
-            {
-                nowKey = key;
-
-                switch (nowKey)
-                {
-                    case KeyCode.X:
-                        objectAngle.x = (scrollWheel < 0) ? -addObjectRotation : addObjectRotation;
-                        break;
-                    case KeyCode.Y:
-                        objectAngle.y = (scrollWheel < 0) ? -addObjectRotation : addObjectRotation;
-                        break;
-                    case KeyCode.Z:
-                        objectAngle.z = (scrollWheel < 0) ? -addObjectRotation : addObjectRotation;
-                        break;
-                }
-            }
-            else
-            {
-                objectAngle.y = (scrollWheel < 0) ? -addObjectRotation : addObjectRotation;
-            }
-        }
-
-        return Quaternion.Euler(objectAngle.x, objectAngle.y, objectAngle.z);
+        return Quaternion.Euler(objectAngle.x, objectAngle.y, objectAngle.z);  
     }
 
     void PlayerInput()

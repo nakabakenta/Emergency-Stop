@@ -7,7 +7,6 @@ public class StageBase : MonoBehaviour
     protected float baseSpeed;
     protected int stageLevel;
     protected string stageName;
-    protected string gameMode; //ゲームモード
     protected string gamePhase;//ゲームフェイズ
 
     public float limit; //限界値

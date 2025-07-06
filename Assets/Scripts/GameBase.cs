@@ -1,28 +1,40 @@
 using UnityEngine;
 
+//シーン名一覧
+public enum SceneName
+{
+    StartUp,
+    Title,
+    GameModeSelect,
+    StageSelect,
+    Stage
+}
+
+//ゲームモード名一覧
+public enum GameModeName
+{
+    Normal, //ノーマル
+    Score,  //スコア
+    Defense,//ディフェンス
+    Endless,//エンドレス
+    Free,   //フリー
+}
+
+//ステージ難易度名一覧
+public enum StageLevelName
+{
+    TestRun,            //
+    Local,              //
+    SemiExpress,        //
+    Rapid,              //
+    Express,            //
+    LimitedExpress,     //
+    SuperLimitedExpress,//
+    MultiTrackDrifting, //
+}
+
 public class GameBase : MonoBehaviour
 {
-    //ゲームモード一覧
-    public enum GameMode
-    {
-        Normal, //ノーマル
-        Score,  //スコア
-        Endless,//エンドレス
-        OnePut, //ワンプット
-        Defense,//防衛
-        Free,   //フリー
-    }
-
-    //ステージ難易度一覧
-    public enum StageLevel
-    {
-        TestRun,            //
-        Local,              //
-        SemiExpress,        //
-        Rapid,              //
-        Express,            //
-        LimitedExpress,     //
-        SuperLimitedExpress,//
-        MultiTrackDrifting, //
-    }
+    public static string scene;   //シーン
+    public static string gameMode;//ゲームモード
 }
