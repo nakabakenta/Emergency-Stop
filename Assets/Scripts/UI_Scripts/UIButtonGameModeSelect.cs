@@ -13,7 +13,42 @@ public class UIButtonGameModeSelect : UIButtonBase, IPointerClickHandler, IPoint
     protected override void Start()
     {
         base.Start();
+
+        List<GameObject> listObjButton = new List<GameObject>();//ボタンオブジェクトリスト
+        Transform transformChild
+            = GameObject.Find("UI_" + GameBase.scene).transform.Find("UI_Button_" + GameBase.scene);
+
+        //
+        foreach (Transform transform in transformChild.transform)
+        {
+            bool exclude = false;//除外フラグ
+
+            //除外する名前が存在する場合
+            if (excludeName != null)
+            {
+                //除外する名前が含まれているかチェックする
+                foreach (string name in excludeName)
+                {
+                    ///除外する名前が含まれている場合
+                    if (transform.name.Contains(name))
+                    {
+                        exclude = true;//除外する
+                        break;
+                    }
+                }
+            }
+
+            //除外していない場合
+            if (!exclude)
+            {
+                listObjButton.Add(transform.gameObject);//リストにオブジェクトを入れる
+            }
+        }
+
+        objButton = listObjButton.ToArray();//リストを配列に変換してオブジェクトに入れる
         nowButton = 0;
+
+        SetScale(1.25f);
     }
 
     //クリックされた場合
@@ -44,13 +79,19 @@ public class UIButtonGameModeSelect : UIButtonBase, IPointerClickHandler, IPoint
     //マウスが重なった場合
     public override void OnPointerEnter(PointerEventData eventData)
     {
-       
+        if (this.name == objButton[nowButton].name)
+        {
+            
+        }    
     }
 
     //マウスが離れた場合
     public override void OnPointerExit(PointerEventData eventData)
     {
+        if (this.name == objButton[nowButton].name)
+        {
 
+        }
     }
 
     //スクロール操作が行われた場合
@@ -71,6 +112,7 @@ public class UIButtonGameModeSelect : UIButtonBase, IPointerClickHandler, IPoint
                     return;
                 }
 
+                SetScale(1);
                 ButtonScroll(vertical);
             }
         }
@@ -83,9 +125,17 @@ public class UIButtonGameModeSelect : UIButtonBase, IPointerClickHandler, IPoint
             RectTransform rectTransform 
                 = objButton[i].GetComponent<RectTransform>();
             rectTransform.anchoredPosition 
-                = new Vector2(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y + vertical * 200);
+                = new Vector2(rectTransform.anchoredPosition.x + vertical * -50, rectTransform.anchoredPosition.y + vertical * 200);
         }
 
         nowButton += vertical;
+        SetScale(1.25f);
+    }
+
+    void SetScale(float scale)
+    {
+        RectTransform rectTransform
+                = objButton[nowButton].GetComponent<RectTransform>();
+        rectTransform.localScale = new Vector3(scale, scale, rectTransform.localScale.z);
     }
 }
