@@ -13,7 +13,7 @@ public class UITitle : MonoBehaviour
     {
         if (Input.anyKeyDown)
         {
-            SceneLoader.LoadScene(SceneName.GameModeSelect.ToString());
+            SceneLoader.LoadScene(SceneName.Menu.ToString());
         }
     }
 }

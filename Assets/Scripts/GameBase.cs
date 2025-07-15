@@ -5,9 +5,11 @@ public enum SceneName
 {
     StartUp,
     Title,
-    GameModeSelect,
+    Menu,
     StageSelect,
-    Stage
+    Stage,
+    Free,
+    Museum,
 }
 
 //ゲームモード名一覧
@@ -35,6 +37,6 @@ public enum StageLevelName
 
 public class GameBase : MonoBehaviour
 {
-    public static string scene;   //シーン
-    public static string gameMode;//ゲームモード
+    public static string nowScene;   //現在のシーン
+    public static string nowGameMode;//現在のゲームモード
 }

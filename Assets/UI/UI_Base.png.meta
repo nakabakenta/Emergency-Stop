@@ -97,11 +97,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: UI_Base_01
+      name: UI_Base_00
       rect:
         serializedVersion: 2
-        x: 64
-        y: 577
+        x: 48
+        y: 768
         width: 64
         height: 64
       alignment: 0
@@ -119,11 +119,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Base_02
+      name: UI_Base_11
       rect:
         serializedVersion: 2
-        x: 224
-        y: 545
+        x: 160
+        y: 736
         width: 128
         height: 128
       alignment: 0
@@ -141,7 +141,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Base_Frame_02_1
+      name: UI_Frame_03_1
       rect:
         serializedVersion: 2
         x: 0
@@ -163,11 +163,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Base_03
+      name: UI_Base_14
       rect:
         serializedVersion: 2
-        x: 416
-        y: 545
+        x: 448
+        y: 736
         width: 128
         height: 128
       alignment: 0
@@ -185,11 +185,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Base_04
+      name: UI_Gradation_01
       rect:
         serializedVersion: 2
-        x: 32
-        y: 736
+        x: 16
+        y: 592
         width: 128
         height: 128
       alignment: 0
@@ -207,7 +207,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Base_Frame_01_Front
+      name: UI_Frame_02_Front
       rect:
         serializedVersion: 2
         x: 0
@@ -229,7 +229,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Base_Frame_02_2
+      name: UI_Frame_03_2
       rect:
         serializedVersion: 2
         x: 512
@@ -251,7 +251,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Base_Frame_01_Back
+      name: UI_Frame_02_Back
       rect:
         serializedVersion: 2
         x: 0
@@ -273,10 +273,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Base_06
+      name: UI_Base_13
       rect:
         serializedVersion: 2
-        x: 608
+        x: 304
         y: 736
         width: 128
         height: 128
@@ -295,11 +295,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Base_0
+      name: UI_Base_10
       rect:
         serializedVersion: 2
-        x: 32
-        y: 545
+        x: 16
+        y: 736
         width: 128
         height: 128
       alignment: 0
@@ -317,45 +317,67 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Base_1
+      name: UI_Pattern_01
       rect:
         serializedVersion: 2
-        x: 224
-        y: 353
+        x: 160
+        y: 592
         width: 128
         height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 48, y: 48, z: 48, w: 48}
+      border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3f9a97676f965ec4d91c3391cdd57b41
-      internalID: 1079771948
+      spriteID: c6e00cc9141e8fd4fae4bef2f234e384
+      internalID: -833166191
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Base_3
+      name: UI_Base_01
       rect:
         serializedVersion: 2
-        x: 224
-        y: 737
+        x: 160
+        y: 880
         width: 128
         height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 64, z: 64, w: 64}
+      border: {x: 32, y: 32, z: 32, w: 32}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b74d03dd1325bbe408dcb37459deac07
-      internalID: -589157717
+      spriteID: 3ab53c1705ea68543bad45a1028cdc67
+      internalID: -638291816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Base_03
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 880
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e15af49d172e62743aa995135e4a86bb
+      internalID: 1637534317
       vertices: []
       indices: 
       edges: []
@@ -374,20 +396,24 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      UI_Base_0: 1741426029
-      UI_Base_01: -1433934309
-      UI_Base_02: 1681271183
-      UI_Base_03: 1128901221
-      UI_Base_04: 827840113
-      UI_Base_05: 705271520
-      UI_Base_06: -425739636
-      UI_Base_1: 1079771948
-      UI_Base_2: 2114193683
-      UI_Base_3: -589157717
-      UI_Base_Frame_01_Back: -759682431
-      UI_Base_Frame_01_Front: -518878804
-      UI_Base_Frame_02_1: -1061428180
-      UI_Base_Frame_02_2: 1880033094
+      UI_Base_00: -1433934309
+      UI_Base_01: -638291816
+      UI_Base_02: -1324940193
+      UI_Base_03: 1637534317
+      UI_Base_07: -589157717
+      UI_Base_10: 1741426029
+      UI_Base_11: 1681271183
+      UI_Base_12: 1079771948
+      UI_Base_13: -425739636
+      UI_Base_14: 1128901221
+      UI_Base_2: -1167414711
+      UI_Frame_01: 1316772183
+      UI_Frame_02_Back: -759682431
+      UI_Frame_02_Front: -518878804
+      UI_Frame_03_1: -1061428180
+      UI_Frame_03_2: 1880033094
+      UI_Gradation_01: 827840113
+      UI_Pattern_01: -833166191
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

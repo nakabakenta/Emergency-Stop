@@ -3,17 +3,25 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UIButtonBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class UIButtonBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IScrollHandler
 {
-    protected string[] excludeName;  //除外する名前
-    protected GameObject[] objButton;//ボタンオブジェクト
-    protected Button button;         //Buttonコンポーネント
+    protected Button button;       //Buttonコンポーネント
+    public SetUIButton setUIButton;//SetUIButtonスクリプト
+    public static UIMenu uIMenu;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected virtual void Start()
     {
         //取得
         button = this.GetComponent<Button>();//Button
+
+        if(GameBase.nowScene == SceneName.Menu.ToString())
+        {
+            if (uIMenu == null)
+            {
+                uIMenu = GameObject.Find("Canvas_" + GameBase.nowScene).GetComponent<UIMenu>();
+            }
+        }
     }
 
     //クリックされた場合
@@ -32,5 +40,21 @@ public class UIButtonBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     public virtual void OnPointerExit(PointerEventData eventData)
     {
         
+    }
+
+    //スクロール操作が行われた場合
+    public virtual void OnScroll(PointerEventData eventData)
+    {
+
+    }
+
+    public int ResetButton(int number)
+    {
+        if(number != 0)
+        {
+            number = 0;
+        }
+
+        return number;
     }
 }
