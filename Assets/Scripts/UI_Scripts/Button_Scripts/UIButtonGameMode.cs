@@ -1,25 +1,14 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IScrollHandler
+public class UIButtonGameMode : UIButtonBase, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IScrollHandler
 {
     public static int nowButton;//現在のボタン
-
-    //メニュー名一覧
-    enum MenuName
-    {
-        GameModeSelect,//ゲームモード選択
-        Museum,        //資料館
-        Option,        //オプション
-        BackToTtle,    //タイトルに戻る
-    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
         base.Start();
-        ResetButton(nowButton);
-        uIMenu.SetText(nowButton);
     }
 
     //クリックされた場合
@@ -27,20 +16,32 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
     {
         if (this.name == setUIButton.objUIButton[nowButton].name)
         {
-            switch (nowButton)
-            {
-                case (int)MenuName.GameModeSelect:
-                    UIMenu.nowStatus = nowButton + 1;
-                    uIMenu.SetMenu();
-                    break;
-                case (int)MenuName.Museum:
-                    SceneLoader.LoadScene(SceneName.Title.ToString());
-                    break;
-                case (int)MenuName.Option: case (int)MenuName.BackToTtle:
-                    UIMenu.nowStatus = nowButton;
-                    uIMenu.SetMenu();
-                    break;
-            }
+            GameBase.nowGameMode = ((GameModeName)nowButton).ToString();//現在のボタン番号をゲームモード名に変換する
+
+            //if(GameBase.gameMode == GameModeName.Normal.ToString())
+            //{
+            //    SceneLoader.LoadScene(SceneName.StageSelect.ToString());
+            //}
+
+            SceneLoader.LoadScene(SceneName.StageSelect.ToString());
+        }
+    }
+
+    //マウスが重なった場合
+    public override void OnPointerEnter(PointerEventData eventData)
+    {
+        if (this.name == setUIButton.objUIButton[nowButton].name)
+        {
+            
+        }    
+    }
+
+    //マウスが離れた場合
+    public override void OnPointerExit(PointerEventData eventData)
+    {
+        if (this.name == setUIButton.objUIButton[nowButton].name)
+        {
+
         }
     }
 
@@ -56,8 +57,8 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
                 //上にスクロールされた場合は-1、それ以外は1
                 int vertical = (scrollDelta > 0) ? -1 : 1;
 
-                if ((nowButton == (int)MenuName.GameModeSelect && vertical == -1) ||
-                    (nowButton == (int)MenuName.BackToTtle && vertical == 1))
+                if ((nowButton == (int)GameModeName.Normal && vertical == -1) ||
+                    (nowButton == (int)GameModeName.Free && vertical == 1))
                 {
                     return;
                 }
@@ -75,9 +76,18 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
                 = setUIButton.objUIButton[i].GetComponent<RectTransform>();
             rectTransform.anchoredPosition
                 = new Vector2(rectTransform.anchoredPosition.x + vertical * 100, rectTransform.anchoredPosition.y + vertical * 200);
+
+            if (i == nowButton)
+            {
+                rectTransform.localScale = Function.ResetVector3(0.75f);
+            }
+            else if (i == nowButton + vertical)
+            {
+                rectTransform.localScale = Vector3.one;
+            }
         }
 
         nowButton += vertical;
-        uIMenu.SetText(nowButton);
+        //uIMenu.SetText(nowButton);
     }
 }

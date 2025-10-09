@@ -47,14 +47,4 @@ public class UIButtonBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     {
 
     }
-
-    public int ResetButton(int number)
-    {
-        if(number != 0)
-        {
-            number = 0;
-        }
-
-        return number;
-    }
 }

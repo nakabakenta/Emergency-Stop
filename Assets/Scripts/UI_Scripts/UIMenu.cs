@@ -1,13 +1,12 @@
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class UIMenu : MonoBehaviour
 {
     public GameObject[] objUI;          //UIオブジェクト
     public GameObject objBackGround;    //背景オブジェクト
     public GameObject objUIButtonReturn;
-    public Text text;                   //テキスト
+    public TextMeshProUGUI buttonText;  //ボタンテキスト
     public static int nowStatus;        //現在の状態
     private string[] description        //説明
         = { "プレイするゲームモードを選択します", "ゲーム内で使用したモデルを閲覧できます", "ゲームのオプションを確認できます", "タイトルに戻ります"};
@@ -60,6 +59,6 @@ public class UIMenu : MonoBehaviour
 
     public void SetText(int number)
     {
-        text.text = description[number];
+        buttonText.text = description[number];
     }
 }

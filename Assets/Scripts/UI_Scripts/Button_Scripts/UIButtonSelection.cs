@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UIButtonBackToScene : UIButtonBase, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class UIButtonSelection : UIButtonBase, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    public static int nowButton;//現在のボタン
+
     //ボタン名一覧
     enum ButtonName
     {
