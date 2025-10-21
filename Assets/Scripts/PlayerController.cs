@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
         //ビューポート座標をワールド座標に変換する
         Vector3 worldPosition = Camera.main.ViewportToWorldPoint(new Vector3(viewPortPosition.x, viewPortPosition.y, objectDistance));
         //Z軸を固定（オブジェクトのZ軸を調整）
-        worldPosition.z = this.transform.position.z + objectDistance;
+        worldPosition.z = this.transform.position.z - objectDistance;
 
         if (objNowObject == null)
         {
