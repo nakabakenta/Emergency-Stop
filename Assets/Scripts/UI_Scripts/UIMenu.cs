@@ -6,7 +6,7 @@ public class UIMenu : MonoBehaviour
     public GameObject[] objUI;          //UIオブジェクト
     public GameObject objBackGround;    //背景オブジェクト
     public GameObject objUIButtonReturn;
-    public TextMeshProUGUI buttonText;  //ボタンテキスト
+    public TMP_Text buttonText;         //ボタンテキスト
     public static int nowStatus;        //現在の状態
     private string[] description        //説明
         = { "プレイするゲームモードを選択します", "ゲーム内で使用したモデルを閲覧できます", "ゲームのオプションを確認できます", "タイトルに戻ります"};

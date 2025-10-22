@@ -120,6 +120,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5274156850955709128}
+  - component: {fileID: 3314583043950730651}
   m_Layer: 0
   m_Name: TestTrain
   m_TagString: Untagged
@@ -143,3 +144,22 @@ Transform:
   - {fileID: 5022649248229856437}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3314583043950730651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3902620658564015701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 688b07b56a54e8043bfa62d193c7e890, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrainBase
+  trainLength: {x: 0, y: 0}
+  pantograph: 0000
+  structTrain:
+    trainType: 
+    acceleration: 0
+    formationName: 
+    status: 

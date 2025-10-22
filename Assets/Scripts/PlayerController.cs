@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed;           //移動速度
     public float objectDistance;      //オブジェクトの距離
+    public float objSetTime;          //オブジェクトの設置時間
+    public static float objSetTimer;  //オブジェクトの設置タイマー
     private int nowCameraMode;        //現在のカメラモード
     private GameObject objCamera;     //カメラオブジェクト
     public GameObject objSelectObject;//選択中のオブジェクト
@@ -23,7 +25,7 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        objSetTimer = 0.0f;
     }
 
     // Update is called once per frame

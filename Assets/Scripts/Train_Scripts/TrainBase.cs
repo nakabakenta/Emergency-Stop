@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class TrainBase : MonoBehaviour
@@ -7,18 +8,18 @@ public class TrainBase : MonoBehaviour
     public struct StructTrain
     {
         [Header("ステータス")]
-        public string trainType;    //列車タイプ
-        public float acceleration;  //加速
-        public string formationName;//編成名
-        public string status;       //状態
+        public string trainType;       //列車タイプ
+        public string formationName;   //編成名
+        public int formationNumber;    //編成番号
+        public float[] acceleration;   //加速力
+        public FloatFB2 trainLength;   //列車の長さ(前・後)
+        public FloatFB2 couplerHp;     //連結器の体力(前・後)
+        public FloatFB2 pantographHp;  //パンタグラフの体力(前・後)
+        public BoolFB2 pantograph;     //パンタグラフの有無(前・後)
+        public BoolFB2 isConcatenation;//連結の有無(前・後)
+        public BoolFB2 isWiring;       //架線接触の有無(前・後)
+        public string status;          //状態
     }
-    public bool[] pantograph        //パンタグラフ(前・後)
-        = new bool[2];
-    protected bool[] isConcatenation//連結の有無(前・後)
-        = new bool[2];
-    protected bool[] isWiring;      //架線接触の有無
-
-    protected int carNumber;//両番号
 
     //構造体変数
     public StructTrain structTrain;//列車
