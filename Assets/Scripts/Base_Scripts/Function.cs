@@ -9,5 +9,3 @@ public class Function : MonoBehaviour
         return vector;
     }
 }
-
-

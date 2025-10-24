@@ -10,6 +10,7 @@ TagManager:
   - Ground
   - Wiring
   - Pantograph
+  - Rail
   layers:
   - Default
   - TransparentFX

@@ -5,14 +5,14 @@ using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed;           //移動速度
-    public float objectDistance;      //オブジェクトの距離
-    public float objSetTime;          //オブジェクトの設置時間
-    public static float objSetTimer;  //オブジェクトの設置タイマー
-    private int nowCameraMode;        //現在のカメラモード
-    private GameObject objCamera;     //カメラオブジェクト
-    public GameObject objSelectObject;//選択中のオブジェクト
-    private GameObject objNowObject;  //現在のオブジェクト
+    public float moveSpeed;            //移動速度
+    public float objectDistance;       //オブジェクトの距離
+    public float objectPutTime;        //オブジェクトの設置時間
+    public static float objectPutTimer;//オブジェクトの設置タイマー
+    private int nowCameraMode;         //現在のカメラモード
+    private GameObject objCamera;      //カメラオブジェクト
+    public GameObject objSelectObject; //選択中のオブジェクト
+    private GameObject objNowObject;   //現在のオブジェクト
 
     public Vector2 [] positionLimit   //座標限界値
         = new Vector2[2];
@@ -22,10 +22,12 @@ public class PlayerController : MonoBehaviour
     public Vector2 rotationLimit;     //回転限界値
     private Vector2 nowAngle;         //現在の角度
 
+    public UIStage uIStage;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        objSetTimer = 0.0f;
+        objectPutTimer = 0.0f;
     }
 
     // Update is called once per frame
@@ -43,33 +45,38 @@ public class PlayerController : MonoBehaviour
         //Z軸を固定（オブジェクトのZ軸を調整）
         worldPosition.z = this.transform.position.z - objectDistance;
 
-        if (objNowObject == null)
+        if (Stage.nowPutNumber > 0)
         {
-            objNowObject = Instantiate(objSelectObject, worldPosition, Quaternion.identity);//オブジェクト生成
-        }
-        else
-        {
-            float scrollWheel = Input.GetAxis("Mouse ScrollWheel");//マウスホイールの回転量
-            objNowObject.transform.position = worldPosition;
-
-            if(scrollWheel != 0)
+            if (objNowObject == null)
             {
-                objNowObject.transform.rotation *= RotationObject(scrollWheel);
+                objNowObject = Instantiate(objSelectObject, worldPosition, Quaternion.identity);//オブジェクト生成
             }
+            else
+            {
+                float scrollWheel = Input.GetAxis("Mouse ScrollWheel");//マウスホイールの回転量
+                objNowObject.transform.position = worldPosition;
 
-            //マウス左クリック
-            if (Input.GetMouseButtonDown(0))
-            {
-                BoxCollider objCollider = objNowObject.GetComponent<BoxCollider>();
-                Rigidbody objRigidBody = objNowObject.GetComponent<Rigidbody>();
-                objCollider.isTrigger = false;
-                objRigidBody.isKinematic = false;
-                objNowObject = null;
-            }
-            //マウスホイールクリック
-            if (Input.GetMouseButtonDown(2))
-            {
-                objNowObject.transform.rotation = Quaternion.identity;//回転を0にする
+                if (scrollWheel != 0)
+                {
+                    objNowObject.transform.rotation *= RotationObject(scrollWheel);
+                }
+
+                //マウス左クリック
+                if (Input.GetMouseButtonDown(0))
+                {
+                    BoxCollider objCollider = objNowObject.GetComponent<BoxCollider>();
+                    Rigidbody objRigidBody = objNowObject.GetComponent<Rigidbody>();
+                    objCollider.isTrigger = false;
+                    objRigidBody.isKinematic = false;
+                    objNowObject = null;
+                    Stage.nowPutNumber--;
+                    uIStage.SetTextObject();
+                }
+                //マウスホイールクリック
+                if (Input.GetMouseButtonDown(2))
+                {
+                    objNowObject.transform.rotation = Quaternion.identity;//回転を0にする
+                }
             }
         }
 
