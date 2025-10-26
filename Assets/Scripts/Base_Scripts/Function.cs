@@ -8,4 +8,10 @@ public class Function : MonoBehaviour
         Vector3 vector = new Vector3(value, value, value);
         return vector;
     }
+
+    //‘¬“x‚ğİ’è‚·‚é(km/h)
+    public static float SetSpeed(float speed)
+    {
+        return speed * 3.6f;
+    }
 }

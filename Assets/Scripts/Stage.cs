@@ -1,48 +1,72 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Stage : MonoBehaviour
 {
-    public int maxPutNumber;       //最大設置数
-    public static int nowPutNumber;//現在の設置数
-    public float waitTime;         //待機時間
-    private float waitTimer;       //待機タイマー
-    public static string status;   //状態
+    enum enumStatus
+    {
+        GameClear,
+        GameOver,
+    }
 
-    private UIStage uIStage;
+    public int maxPutNum;       //最大設置数
+    public float waitTime;      //待機時間
+    private float waitTimer;    //待機タイマー
+    public static int nowPutNum;//現在の設置数
+    public static bool dep;     //発車フラグ
+    public static string status;//状態
 
-    public Transform trainFormation;
-    public Transform endPosition;
+    public Transform trainForm;
+    public Transform target;
+
+    private Vector3 startVec;//
 
     private void Awake()
     {
         waitTimer = waitTime;
-        nowPutNumber = maxPutNumber;
-
-        uIStage = this.GetComponent<UIStage>();
+        nowPutNum = maxPutNum;
+        startVec = target.position - trainForm.position;
+        dep = false;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        SetDistance();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(waitTimer != 0.0f)
+        if(dep)
+        {
+            SetDistance();
+        }
+        else
         {
             waitTimer -= Time.deltaTime;
 
             if (waitTimer <= 0.0f)
             {
                 waitTimer = 0.0f;
+                dep = true;
             }
 
-            uIStage.SetTextTimer(waitTimer);
+            UIStage.uIStage.SetTextTimer(waitTimer);
         }
+    }
 
-        float distance = Vector3.Distance(trainFormation.position, endPosition.position);
-        uIStage.SetTextDistance(distance);
+    void SetDistance()
+    {
+        Vector3 targetVec = target.position - trainForm.position;
+
+        if (Vector3.Dot(startVec, targetVec) <= 0.0f)
+        {
+            
+        }
+        else
+        {
+            UIStage.uIStage.SetTextDistance(Vector3.Distance(trainForm.position, target.position));
+        }
     }
 }

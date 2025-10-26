@@ -12,8 +12,11 @@ public class TrainFormation : MonoBehaviour
     public float distance;          //距離
 
     protected int trainNum;         //列車数
-    protected float nowSpeed;       //現在の速度
+    private float nowSpeed;         //現在の速度
+    private int nowAccel;
     protected GameObject[] objTrain;//列車オブジェクト
+
+    public UIStage uIStage;
 
     //列車タイプ一覧
     enum enumTrainType
@@ -34,7 +37,7 @@ public class TrainFormation : MonoBehaviour
             enumTrainType type = (enumTrainType)System.Enum.Parse(typeof(enumTrainType), formSetting[i]);
             objTrain[i] = Instantiate(trainPre[(int)type], this.transform.position, Quaternion.identity, transform);//オブジェクト生成
 
-            for (int j = 0; j <= i; j++)
+            for (int j = 0; j < i + 1; j++)
             {
                 TrainBase trainBase = objTrain[j].GetComponent<TrainBase>();
                 float length = 0;
@@ -58,15 +61,38 @@ public class TrainFormation : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        nowAccel = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(nowSpeed * 3.6f < maxSpeed[0])
+        if(Stage.dep)
         {
-            this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + accel[0] * Time.deltaTime);
+            Move();
         }
+    }
+
+    void Move()
+    {
+        if (Function.SetSpeed(nowSpeed) >= maxSpeed[nowAccel])
+        {
+            if (nowAccel < accel.Length - 1)
+            {
+                nowAccel++;
+            }
+
+            if(nowAccel == accel.Length - 1 && nowSpeed > maxSpeed[nowAccel])
+            {
+                nowSpeed = maxSpeed[nowAccel];
+            }
+        }
+        else
+        {
+            nowSpeed += accel[nowAccel] * Time.deltaTime;
+        }
+
+        this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + nowSpeed * Time.deltaTime);
+        uIStage.SetTextSpeed(Function.SetSpeed(nowSpeed));
     }
 }

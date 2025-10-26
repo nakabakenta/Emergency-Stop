@@ -14,6 +14,12 @@ public class ObjectBase : MonoBehaviour
 
     //構造体変数
     public StructObject structObject;//オブジェクト
+    private Rigidbody rb;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,6 +29,12 @@ public class ObjectBase : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        
+    }
+
+    //当たり判定(OnCollisionStay)
+    public void OnCollisionStay(Collision collision)
     {
         
     }

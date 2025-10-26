@@ -22,8 +22,6 @@ public class PlayerController : MonoBehaviour
     public Vector2 rotationLimit;     //回転限界値
     private Vector2 nowAngle;         //現在の角度
 
-    public UIStage uIStage;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -45,7 +43,7 @@ public class PlayerController : MonoBehaviour
         //Z軸を固定（オブジェクトのZ軸を調整）
         worldPosition.z = this.transform.position.z - objectDistance;
 
-        if (Stage.nowPutNumber > 0)
+        if (Stage.nowPutNum > 0)
         {
             if (objNowObject == null)
             {
@@ -69,8 +67,8 @@ public class PlayerController : MonoBehaviour
                     objCollider.isTrigger = false;
                     objRigidBody.isKinematic = false;
                     objNowObject = null;
-                    Stage.nowPutNumber--;
-                    uIStage.SetTextObject();
+                    Stage.nowPutNum--;
+                    UIStage.uIStage.SetTextObject();
                 }
                 //マウスホイールクリック
                 if (Input.GetMouseButtonDown(2))

@@ -3,6 +3,13 @@ using UnityEngine;
 
 public class TrainBase : MonoBehaviour
 {
+    enum enumStatus
+    {
+        Normal,    //通常
+        Derailment,//脱線
+        Stop,      //停止
+    }
+
     //列車構造体
     [System.Serializable]
     public struct StructTrain
@@ -19,8 +26,15 @@ public class TrainBase : MonoBehaviour
         public string status;         //状態
     }
 
+    private BoxCollider boxCollider;
+
     //構造体変数
     public StructTrain structTrain;//列車
+
+    private void Awake()
+    {
+        boxCollider = GetComponent<BoxCollider>();
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,10 +48,25 @@ public class TrainBase : MonoBehaviour
         
     }
 
-    enum enumStatus
+    //当たり判定(OnCollisionStay)
+    private void OnCollisionStay(Collision collision)
     {
-        Normal,    //通常
-        Derailment,//脱線
-        Stop,      //停止
+        if(collision.gameObject.tag == "Object")
+        {
+            if (boxCollider.enabled)
+            {
+                boxCollider.enabled = false;
+
+                //自分の全ての子オブジェクトを取得
+                foreach (Transform obj in this.transform)
+                {
+                    //Rigidbodyがなければ追加
+                    if (obj.GetComponent<Rigidbody>() == null)
+                    {
+                        Rigidbody rb = obj.gameObject.AddComponent<Rigidbody>();
+                    }
+                }
+            }
+        }
     }
 }
