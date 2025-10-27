@@ -16,14 +16,14 @@ public class UIButtonGameMode : UIButtonBase, IPointerClickHandler, IPointerEnte
     {
         if (this.name == setUIButton.objUIButton[nowButton].name)
         {
-            GameBase.nowGameMode = ((GameModeName)nowButton).ToString();//現在のボタン番号をゲームモード名に変換する
+            GameBase.nowGameMode = ((GameMode)nowButton).ToString();//現在のボタン番号をゲームモード名に変換する
 
             //if(GameBase.gameMode == GameModeName.Normal.ToString())
             //{
             //    SceneLoader.LoadScene(SceneName.StageSelect.ToString());
             //}
 
-            SceneLoader.LoadScene(SceneName.StageSelect.ToString());
+            SceneLoader.LoadScene(Scene.StageSelect.ToString());
         }
     }
 
@@ -57,8 +57,8 @@ public class UIButtonGameMode : UIButtonBase, IPointerClickHandler, IPointerEnte
                 //上にスクロールされた場合は-1、それ以外は1
                 int vertical = (scrollDelta > 0) ? -1 : 1;
 
-                if ((nowButton == (int)GameModeName.Normal && vertical == -1) ||
-                    (nowButton == (int)GameModeName.Free && vertical == 1))
+                if ((nowButton == (int)GameMode.Normal && vertical == -1) ||
+                    (nowButton == (int)GameMode.Free && vertical == 1))
                 {
                     return;
                 }

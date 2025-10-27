@@ -31,6 +31,21 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Stage.dep)
+        {
+            if(objNowObject != null)
+            {
+                ObjectPut();
+            }
+        }
+        else
+        {
+            PlayerInput();
+        }
+    }
+
+    void PlayerInput()
+    {
         //マウス位置を画面座標で取得する
         Vector2 mousePosition = Input.mousePosition;
         //画面座標をビューポート座標に変換する
@@ -49,32 +64,24 @@ public class PlayerController : MonoBehaviour
             {
                 objNowObject = Instantiate(objSelectObject, worldPosition, Quaternion.identity);//オブジェクト生成
             }
-            else
+
+            float scrollWheel = Input.GetAxis("Mouse ScrollWheel");//マウスホイールの回転量
+            objNowObject.transform.position = worldPosition;
+
+            if (scrollWheel != 0)
             {
-                float scrollWheel = Input.GetAxis("Mouse ScrollWheel");//マウスホイールの回転量
-                objNowObject.transform.position = worldPosition;
+                objNowObject.transform.rotation *= RotationObject(scrollWheel);
+            }
 
-                if (scrollWheel != 0)
-                {
-                    objNowObject.transform.rotation *= RotationObject(scrollWheel);
-                }
-
-                //マウス左クリック
-                if (Input.GetMouseButtonDown(0))
-                {
-                    BoxCollider objCollider = objNowObject.GetComponent<BoxCollider>();
-                    Rigidbody objRigidBody = objNowObject.GetComponent<Rigidbody>();
-                    objCollider.isTrigger = false;
-                    objRigidBody.isKinematic = false;
-                    objNowObject = null;
-                    Stage.nowPutNum--;
-                    UIStage.uIStage.SetTextObject();
-                }
-                //マウスホイールクリック
-                if (Input.GetMouseButtonDown(2))
-                {
-                    objNowObject.transform.rotation = Quaternion.identity;//回転を0にする
-                }
+            //マウス左クリック
+            if (Input.GetMouseButtonDown(0))
+            {
+                ObjectPut();
+            }
+            //マウスホイールクリック
+            if (Input.GetMouseButtonDown(2))
+            {
+                objNowObject.transform.rotation = Quaternion.identity;//回転を0にする
             }
         }
 
@@ -84,7 +91,7 @@ public class PlayerController : MonoBehaviour
             this.transform.position += transform.forward * moveSpeed * Time.deltaTime;
         }
         //Aキー
-        if (Input.GetKey(KeyCode.A)) 
+        if (Input.GetKey(KeyCode.A))
         {
             this.transform.position -= transform.right * moveSpeed * Time.deltaTime;
         }
@@ -98,6 +105,17 @@ public class PlayerController : MonoBehaviour
         {
             this.transform.position += transform.right * moveSpeed * Time.deltaTime;
         }
+    }
+
+    void ObjectPut()
+    {
+        BoxCollider objCollider = objNowObject.GetComponent<BoxCollider>();
+        Rigidbody objRigidBody = objNowObject.GetComponent<Rigidbody>();
+        objCollider.isTrigger = false;
+        objRigidBody.isKinematic = false;
+        objNowObject = null;
+        Stage.nowPutNum--;
+        UIStage.uIStage.SetTextObject();
     }
 
     Quaternion RotationObject(float scrollWheel)
@@ -128,21 +146,21 @@ public class PlayerController : MonoBehaviour
         return Quaternion.Euler(objectAngle.x, objectAngle.y, objectAngle.z);  
     }
 
-    void PlayerInput()
-    {
-        if (Input.GetMouseButtonDown(1)) { }
-        ;//マウス右クリック
-        if (Input.GetMouseButtonDown(2)) { }
-        ;//マウス中クリック
+    //void PlayerInput()
+    //{
+    //    if (Input.GetMouseButtonDown(1)) { }
+    //    ;//マウス右クリック
+    //    if (Input.GetMouseButtonDown(2)) { }
+    //    ;//マウス中クリック
 
-        //マウスの移動量取得
-        //nowRotation.x += Input.GetAxis("Mouse X") * rotationSpeed;
-        //nowRotation.y -= Input.GetAxis("Mouse Y") * rotationSpeed;
+    //    //マウスの移動量取得
+    //    //nowRotation.x += Input.GetAxis("Mouse X") * rotationSpeed;
+    //    //nowRotation.y -= Input.GetAxis("Mouse Y") * rotationSpeed;
 
-        //
-        //nowRotation.y = Mathf.Clamp(nowRotation.y, minMaxRotation.x, minMaxRotation.y);
+    //    //
+    //    //nowRotation.y = Mathf.Clamp(nowRotation.y, minMaxRotation.x, minMaxRotation.y);
 
-        //回転を反映
-        //this.transform.rotation = Quaternion.Euler(nowRotation.y, nowRotation.x, 0.0f);
-    }
+    //    //回転を反映
+    //    //this.transform.rotation = Quaternion.Euler(nowRotation.y, nowRotation.x, 0.0f);
+    //}
 }

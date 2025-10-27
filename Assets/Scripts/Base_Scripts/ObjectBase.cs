@@ -8,12 +8,11 @@ public class ObjectBase : MonoBehaviour
     {
         [Header("ステータス(耐久,重量,弾力)")]
         public float endurance; //耐久
-        public float weight;    //重量
         public float elasticity;//弾力
     }
 
     //構造体変数
-    public StructObject structObject;//オブジェクト
+    public StructObject structObj;//オブジェクト
     private Rigidbody rb;
 
     private void Awake()
@@ -34,8 +33,12 @@ public class ObjectBase : MonoBehaviour
     }
 
     //当たり判定(OnCollisionStay)
-    public void OnCollisionStay(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
-        
+        if(collision.gameObject.tag == "Train")
+        {
+            TrainBase trainBase = collision.gameObject.GetComponent<TrainBase>();
+            rb.AddForce(Vector3.forward * trainBase.CollisionObject(rb.mass), ForceMode.Impulse);
+        }
     }
 }

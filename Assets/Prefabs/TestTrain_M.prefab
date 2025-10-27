@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3483310110027615662}
   m_Layer: 0
   m_Name: Bogie_B
-  m_TagString: Train
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 3683167279344398760}
   m_Layer: 0
   m_Name: Base
-  m_TagString: Train
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -277,6 +277,7 @@ MonoBehaviour:
   structTrain:
     formName: 
     formNum: 0
+    trainHp: 25
     concatLength:
       front: 10
       back: 10
@@ -331,7 +332,7 @@ GameObject:
   - component: {fileID: 5674346532864011344}
   m_Layer: 0
   m_Name: Coupler_B
-  m_TagString: Train
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -553,7 +554,7 @@ GameObject:
   - component: {fileID: 2627697880267868280}
   m_Layer: 0
   m_Name: Coupler_F
-  m_TagString: Train
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -664,7 +665,7 @@ GameObject:
   - component: {fileID: 1888725266150270298}
   m_Layer: 0
   m_Name: Bogie_F
-  m_TagString: Train
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

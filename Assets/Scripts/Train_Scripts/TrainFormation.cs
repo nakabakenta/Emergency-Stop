@@ -1,22 +1,21 @@
 using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class TrainFormation : MonoBehaviour
 {
-    public GameObject[] trainPre;   //列車プレハブ
-    public float[] accel;           //加速力
-    public float[] brake;           //減速力
-    public float[] maxSpeed;        //最大速度
-    public string[] formSetting;    //編成設定
-    public float distance;          //距離
-
-    protected int trainNum;         //列車数
-    private float nowSpeed;         //現在の速度
-    private int nowAccel;
-    protected GameObject[] objTrain;//列車オブジェクト
-
-    public UIStage uIStage;
+    public GameObject[] trainPre;         //列車プレハブ
+    public float[] accel;                 //加速力
+    public float[] brake;                 //減速力
+    public float[] maxSpeed;              //最大速度
+    public string[] formSetting;          //編成設定
+    public float distance;                //距離
+    private int trainNum;                 //列車数
+    private int nowAccel = 0;
+    private float[] moveSpeed;
+    private GameObject[] objTrain;        //列車オブジェクト
+    private TrainFormation trainFormation;//
 
     //列車タイプ一覧
     enum enumTrainType
@@ -29,10 +28,13 @@ public class TrainFormation : MonoBehaviour
 
     private void Awake()
     {
-        objTrain = new GameObject[formSetting.Length];
+        trainFormation = this.GetComponent<TrainFormation>();
         trainNum = formSetting.Length;
+        moveSpeed = new float[trainNum];
+        objTrain = new GameObject[trainNum];
+        
 
-        for (int i = 0; i < objTrain.Length; i++)
+        for (int i = 0; i < trainNum; i++)
         {
             enumTrainType type = (enumTrainType)System.Enum.Parse(typeof(enumTrainType), formSetting[i]);
             objTrain[i] = Instantiate(trainPre[(int)type], this.transform.position, Quaternion.identity, transform);//オブジェクト生成
@@ -40,9 +42,10 @@ public class TrainFormation : MonoBehaviour
             for (int j = 0; j < i + 1; j++)
             {
                 TrainBase trainBase = objTrain[j].GetComponent<TrainBase>();
+                trainBase.SetTrain();
                 float length = 0;
 
-                if (i == objTrain.Length - 1)
+                if (i == trainNum - 1)
                 {
                     length = trainBase.structTrain.concatLength.front;
                 }
@@ -58,31 +61,28 @@ public class TrainFormation : MonoBehaviour
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z - distance);
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        nowAccel = 0;
-    }
-
     // Update is called once per frame
     void Update()
     {
-        if(Stage.dep)
-        {
-            Move();
-        }
+        MoveTrain();
     }
 
-    void Move()
+    public float MoveTrain()
     {
-        if (Function.SetSpeed(nowSpeed) >= maxSpeed[nowAccel])
+        for (int i = 0; i < trainNum; i++)
+        {
+            TrainBase trainBase = objTrain[i].GetComponent<TrainBase>();
+            moveSpeed[i] = trainBase.GetNowSpeed();
+        }
+
+        if (Function.SetSpeed(nowSpeed) >= trainFormation.maxSpeed[trainFormation.nowAccel])
         {
             if (nowAccel < accel.Length - 1)
             {
                 nowAccel++;
             }
 
-            if(nowAccel == accel.Length - 1 && nowSpeed > maxSpeed[nowAccel])
+            if (nowAccel == accel.Length - 1 && nowSpeed > maxSpeed[nowAccel])
             {
                 nowSpeed = maxSpeed[nowAccel];
             }
@@ -93,6 +93,9 @@ public class TrainFormation : MonoBehaviour
         }
 
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + nowSpeed * Time.deltaTime);
-        uIStage.SetTextSpeed(Function.SetSpeed(nowSpeed));
+
+        UIStage.uIStage.SetTextSpeed(Function.SetSpeed(trainFormation.MoveTrain()));
+
+        return 0;
     }
 }

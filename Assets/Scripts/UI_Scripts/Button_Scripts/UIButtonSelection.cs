@@ -22,7 +22,7 @@ public class UIButtonSelection : UIButtonBase, IPointerClickHandler, IPointerEnt
     {
         if (this.name == setUIButton.objUIButton[(int)ButtonName.Yes].name)
         {
-            SceneLoader.LoadScene(SceneName.Title.ToString());
+            SceneLoader.LoadScene(Scene.Title.ToString());
         }
         else
         {

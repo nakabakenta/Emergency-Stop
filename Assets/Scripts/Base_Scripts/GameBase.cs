@@ -1,7 +1,7 @@
 using UnityEngine;
 
-//シーン名一覧
-public enum SceneName
+//シーン一覧
+public enum Scene
 {
     StartUp,
     Title,
@@ -12,8 +12,8 @@ public enum SceneName
     Museum,
 }
 
-//ゲームモード名一覧
-public enum GameModeName
+//ゲームモード一覧
+public enum GameMode
 {
     Normal, //ノーマル
     Score,  //スコア
@@ -22,8 +22,8 @@ public enum GameModeName
     Free,   //フリー
 }
 
-//ステージ難易度名一覧
-public enum StageLevelName
+//ステージ難易度一覧
+public enum StageLevel
 {
     TestRun,            //
     Local,              //
@@ -33,6 +33,19 @@ public enum StageLevelName
     LimitedExpress,     //
     SuperLimitedExpress,//
     MultiTrackDrifting, //
+}
+
+enum StageStatus
+{
+    GameClear,
+    GameOver,
+}
+
+public enum TrainStatus
+{
+    Normal,    //通常
+    Derailment,//脱線
+    Stop,      //停止
 }
 
 public class GameBase : MonoBehaviour

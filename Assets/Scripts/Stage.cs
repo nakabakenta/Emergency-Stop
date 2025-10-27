@@ -3,12 +3,6 @@ using UnityEngine;
 
 public class Stage : MonoBehaviour
 {
-    enum enumStatus
-    {
-        GameClear,
-        GameOver,
-    }
-
     public int maxPutNum;       //最大設置数
     public float waitTime;      //待機時間
     private float waitTimer;    //待機タイマー
@@ -62,7 +56,7 @@ public class Stage : MonoBehaviour
 
         if (Vector3.Dot(startVec, targetVec) <= 0.0f)
         {
-            
+            status = StageStatus.GameOver.ToString();
         }
         else
         {
