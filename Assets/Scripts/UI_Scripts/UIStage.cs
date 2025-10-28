@@ -9,6 +9,9 @@ public class UIStage : MonoBehaviour
     public TMP_Text textObject;   //オブジェクトテキスト
     public TMP_Text textSpeed;    //速度テキスト
     public TMP_Text textDistance; //距離テキスト
+
+    public TMP_Text textGameStatus;
+
     public static UIStage uIStage;
 
     private void Awake()
@@ -41,5 +44,10 @@ public class UIStage : MonoBehaviour
     public void SetTextDistance(float distance)
     {
         textDistance.text = $"{distance:0000} m";
+    }
+
+    public void SetGameStatus(string text)
+    {
+        textGameStatus.text = text;
     }
 }

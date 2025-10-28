@@ -35,7 +35,7 @@ public enum StageLevel
     MultiTrackDrifting, //
 }
 
-enum StageStatus
+enum GameStatus
 {
     GameClear,
     GameOver,
@@ -44,8 +44,8 @@ enum StageStatus
 public enum TrainStatus
 {
     Normal,    //’Êí
+    Collision, //Õ“Ë
     Derailment,//’Eü
-    Stop,      //’â~
 }
 
 public class GameBase : MonoBehaviour

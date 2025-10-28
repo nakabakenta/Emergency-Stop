@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Stage.dep)
+        if(Stage.waitTimer == 0.0f)
         {
             if(objNowObject != null)
             {

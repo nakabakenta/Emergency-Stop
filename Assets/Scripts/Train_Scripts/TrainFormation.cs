@@ -13,9 +13,10 @@ public class TrainFormation : MonoBehaviour
     public float distance;                //距離
     private int trainNum;                 //列車数
     private int nowAccel = 0;
-    private float[] moveSpeed;
+    private float moveSpeed = 0;
     private GameObject[] objTrain;        //列車オブジェクト
     private TrainFormation trainFormation;//
+    private bool stop = false;
 
     //列車タイプ一覧
     enum enumTrainType
@@ -30,22 +31,20 @@ public class TrainFormation : MonoBehaviour
     {
         trainFormation = this.GetComponent<TrainFormation>();
         trainNum = formSetting.Length;
-        moveSpeed = new float[trainNum];
         objTrain = new GameObject[trainNum];
         
-
-        for (int i = 0; i < trainNum; i++)
+        for (int formNum = 0; formNum < trainNum; formNum++)
         {
-            enumTrainType type = (enumTrainType)System.Enum.Parse(typeof(enumTrainType), formSetting[i]);
-            objTrain[i] = Instantiate(trainPre[(int)type], this.transform.position, Quaternion.identity, transform);//オブジェクト生成
+            enumTrainType type = (enumTrainType)System.Enum.Parse(typeof(enumTrainType), formSetting[formNum]);
+            objTrain[formNum] = Instantiate(trainPre[(int)type], this.transform.position, Quaternion.identity, transform);//オブジェクト生成
 
-            for (int j = 0; j < i + 1; j++)
+            for (int lastTrain = 0; lastTrain < formNum + 1; lastTrain++)
             {
-                TrainBase trainBase = objTrain[j].GetComponent<TrainBase>();
-                trainBase.SetTrain();
+                TrainBase trainBase = objTrain[lastTrain].GetComponent<TrainBase>();
+                trainBase.SetTrain(trainFormation);
                 float length = 0;
 
-                if (i == trainNum - 1)
+                if (formNum == trainNum - 1)
                 {
                     length = trainBase.structTrain.concatLength.front;
                 }
@@ -54,7 +53,7 @@ public class TrainFormation : MonoBehaviour
                     length = trainBase.structTrain.concatLength.front + trainBase.structTrain.concatLength.back;
                 }
 
-                objTrain[j].transform.position = new Vector3(this.transform.position.x, this.transform.position.y, objTrain[j].transform.position.z + length);
+                objTrain[lastTrain].transform.position = new Vector3(this.transform.position.x, this.transform.position.y, objTrain[lastTrain].transform.position.z + length);
             }
         }
 
@@ -64,38 +63,51 @@ public class TrainFormation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MoveTrain();
-    }
-
-    public float MoveTrain()
-    {
-        for (int i = 0; i < trainNum; i++)
+        if (Stage.waitTimer == 0.0f && !stop)
         {
-            TrainBase trainBase = objTrain[i].GetComponent<TrainBase>();
-            moveSpeed[i] = trainBase.GetNowSpeed();
+            MoveTrain();
         }
 
-        if (Function.SetSpeed(nowSpeed) >= trainFormation.maxSpeed[trainFormation.nowAccel])
+        if(moveSpeed <= 0.0f && stop)
+        {
+            Stage.status = GameStatus.GameClear.ToString();
+        }
+
+        UIStage.uIStage.SetTextSpeed(Function.SetSpeed(moveSpeed));
+    }
+
+    void MoveTrain()
+    {
+        if (Function.SetSpeed(moveSpeed) >= trainFormation.maxSpeed[trainFormation.nowAccel])
         {
             if (nowAccel < accel.Length - 1)
             {
                 nowAccel++;
             }
 
-            if (nowAccel == accel.Length - 1 && nowSpeed > maxSpeed[nowAccel])
+            if (nowAccel == accel.Length - 1 && Function.SetSpeed(moveSpeed) > maxSpeed[nowAccel])
             {
-                nowSpeed = maxSpeed[nowAccel];
+                moveSpeed = maxSpeed[nowAccel] / 3.6f;
             }
         }
         else
         {
-            nowSpeed += accel[nowAccel] * Time.deltaTime;
+            moveSpeed += accel[nowAccel] * Time.deltaTime;
         }
 
-        this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + nowSpeed * Time.deltaTime);
+        this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + moveSpeed * Time.deltaTime);
+    }
 
-        UIStage.uIStage.SetTextSpeed(Function.SetSpeed(trainFormation.MoveTrain()));
+    public float Decel(float decel)
+    {
+        moveSpeed -= decel;
 
-        return 0;
+        if (moveSpeed <= 0.0f)
+        {
+            moveSpeed = 0.0f;
+            stop = true;
+        }
+
+        return moveSpeed;
     }
 }

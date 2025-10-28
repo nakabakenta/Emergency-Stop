@@ -10,74 +10,61 @@ public class TrainBase : MonoBehaviour
     public struct StructTrain
     {
         [Header("ステータス")]
-        public int formNum;               //編成番号
-        public float trainHp;             //列車の体力
-        public FloatFB2 concatLength;     //列車の連結間隔(前・後)
-        public FloatFB2 couplerHp;        //連結器の体力(前・後)
-        public FloatFB2 pantoHp;          //パンタグラフの体力(前・後)
-        public BoolFB2 isConcat;          //連結(前・後)
-        public BoolFB2 isPowerFeeding;    //給電(前・後)
-        public BoolFB2 isOnRail;          //レール上(前・後)
-    }                                     
-                                          
-    private float nowSpeed;               //現在の速度
-    private int status;                   //状態
-    private float[] statusDecel 
-        = new float[2] { 2.0f, 1.0f };
-    private BoxCollider boxCollider;
+        public float trainHp;         //列車の体力
+        public FloatFB2 concatLength; //列車の連結間隔(前・後)
+        public FloatFB2 couplerHp;    //連結器の体力(前・後)
+        public FloatFB2 pantoHp;      //パンタグラフの体力(前・後)
+        public BoolFB2 isConcat;      //連結(前・後)
+        public BoolFB2 isPowerFeeding;//給電(前・後)
+        public BoolFB2 isOnRail;      //レール上(前・後)
+    }
+ 
+    private int trainStatus;              //状態
+    private TrainFormation trainFormation;
 
     //構造体変数
     public StructTrain structTrain;//列車
 
-    public void SetTrain()
+    public void SetTrain(TrainFormation script)
     {
-        status = (int)TrainStatus.Normal;
-        boxCollider = GetComponent<BoxCollider>();
-    }
-
-    public float GetNowSpeed()
-    {
-        return nowSpeed;
+        trainFormation = script;
+        trainStatus = (int)TrainStatus.Normal;
     }
 
     //
     public float CollisionObject(float mass)
     {
-        if (status == (int)TrainStatus.Normal)
+        if(GetComponent<Rigidbody>() == null)
         {
+           Rigidbody rb = this.gameObject.AddComponent<Rigidbody>();
+           rb.mass = 5000;
+        }
+
+        if (trainStatus != (int)TrainStatus.Derailment)
+        {
+            structTrain.trainHp -= mass;
+
             if (structTrain.trainHp <= 0)
             {
-                status = (int)TrainStatus.Derailment;
+                trainStatus = (int)TrainStatus.Derailment;
                 structTrain.trainHp = 0;
-                boxCollider.enabled = false;
+                Destroy(GetComponent<BoxCollider>());
+                Destroy(GetComponent<Rigidbody>());
 
                 //自分の全ての子オブジェクトを取得
                 foreach (Transform obj in this.transform)
                 {
-                    Rigidbody rb = obj.gameObject.AddComponent<Rigidbody>();
+                    obj.gameObject.AddComponent<Rigidbody>();
                 }
             }
             else
             {
-                structTrain.trainHp -= mass;
+                trainStatus = (int)TrainStatus.Collision;
             }
         }
 
-        if (status != (int)TrainStatus.Stop)
-        {
-            float decel = mass / statusDecel[status];
+        float moveSpeed = trainFormation.Decel(mass / 3.6f);
 
-            if (nowSpeed <= 0.0f)
-            {
-                status = (int)TrainStatus.Stop;
-                nowSpeed = 0.0f;
-            }
-            else
-            {
-                nowSpeed -= decel;
-            }
-        }
-
-        return nowSpeed;
+        return moveSpeed;
     }
 }

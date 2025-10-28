@@ -13,23 +13,14 @@ public class ObjectBase : MonoBehaviour
 
     //構造体変数
     public StructObject structObj;//オブジェクト
+
+    private float maxSpeed = 10.0f;
     private Rigidbody rb;
+    
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     //当たり判定(OnCollisionStay)
@@ -38,7 +29,14 @@ public class ObjectBase : MonoBehaviour
         if(collision.gameObject.tag == "Train")
         {
             TrainBase trainBase = collision.gameObject.GetComponent<TrainBase>();
-            rb.AddForce(Vector3.forward * trainBase.CollisionObject(rb.mass), ForceMode.Impulse);
+            float force = trainBase.CollisionObject(rb.mass);
+            rb.AddForce(Vector3.forward * force, ForceMode.Impulse);
+            Vector3 velocity = rb.linearVelocity;
+
+            if (velocity.magnitude > maxSpeed)
+            {
+                rb.linearVelocity = velocity.normalized * maxSpeed;
+            }
         }
     }
 }
