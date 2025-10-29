@@ -155,3 +155,4 @@ MonoBehaviour:
   structObj:
     endurance: 0
     elasticity: 0
+  maxDistance: 100

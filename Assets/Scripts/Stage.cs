@@ -19,6 +19,7 @@ public class Stage : MonoBehaviour
         waitTimer = waitTime;
         nowPutNum = maxPutNum;
         startVec = target.position - trainForm.position;
+        status = null;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -30,26 +31,33 @@ public class Stage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(waitTimer == 0.0f && (status != GameStatus.GameClear.ToString() || status != GameStatus.GameOver.ToString()))
+        if(status == null)
+        {
+            SetTimer();
+        }
+        else if(status == GameStatus.GameStart.ToString())
         {
             SetDistance();
         }
         else
         {
-            waitTimer -= Time.deltaTime;
-
-            if (waitTimer <= 0.0f)
-            {
-                waitTimer = 0.0f;
-            }
-
-            UIStage.uIStage.SetTextTimer(waitTimer);
-        }
-
-        if(status == GameStatus.GameClear.ToString() || status == GameStatus.GameOver.ToString())
-        {
             UIStage.uIStage.SetGameStatus(status);
         }
+    }
+
+    void SetTimer()
+    {
+        if (waitTimer <= 0.0f)
+        {
+            status = GameStatus.GameStart.ToString();
+            waitTimer = 0.0f;
+        }
+        else
+        {
+            waitTimer -= Time.deltaTime;
+        }
+
+        UIStage.uIStage.SetTextTimer(waitTimer);
     }
 
     void SetDistance()

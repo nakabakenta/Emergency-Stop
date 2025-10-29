@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 public class ObjectBase : MonoBehaviour
 {
@@ -12,15 +13,36 @@ public class ObjectBase : MonoBehaviour
     }
 
     //構造体変数
-    public StructObject structObj;//オブジェクト
+    public StructObject structObj; //オブジェクト
+
+    public float maxDistance;      //最大距離
 
     private float maxSpeed = 10.0f;
     private Rigidbody rb;
-    
+    private LineRenderer lineRend;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        //GameObject objLineRend = Resources.Load<GameObject>("LineRenderer");
+        //lineRend = objLineRend.GetComponent<LineRenderer>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //if (Physics.Raycast(this.transform.position, Vector3.down, out RaycastHit hit, maxDistance))
+        //{
+        //    // 何かに当たったら、その位置まで線を伸ばす
+        //    lineRend.SetPosition(0, this.transform.position);
+        //    lineRend.SetPosition(1, hit.point);
+        //}
+        //else
+        //{
+        //    // 何にも当たらなかったら、最大距離まで線を出す
+        //    lineRend.SetPosition(0, this.transform.position);
+        //    lineRend.SetPosition(1, this.transform.position + Vector3.down * maxDistance);
+        //}
     }
 
     //当たり判定(OnCollisionStay)
