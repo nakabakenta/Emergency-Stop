@@ -5,6 +5,7 @@ using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 public class UIStage : MonoBehaviour
 {
+    public TMP_Text textDesc;     //説明テキスト
     public TMP_Text textTimer;    //タイマーテキスト
     public TMP_Text textObject;   //オブジェクトテキスト
     public TMP_Text textSpeed;    //速度テキスト
@@ -17,7 +18,7 @@ public class UIStage : MonoBehaviour
     private void Awake()
     {
         uIStage = this.GetComponent<UIStage>();
-        SetTextObject();
+        SetTextObject(Stage.putNum);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -31,9 +32,9 @@ public class UIStage : MonoBehaviour
         textTimer.text = $"{timer:00.00}";
     }
 
-    public void SetTextObject()
+    public void SetTextObject(int num)
     {
-        textObject.text = Stage.nowPutNum.ToString();
+        textObject.text = num.ToString();
     }
 
     public void SetTextSpeed(float speed)

@@ -37,7 +37,9 @@ public enum StageLevel
 
 enum GameStatus
 {
-    GameStart,
+    GameStart,//
+    GamePrep, //€”õ
+    GameDep,  //”­Ô
     GameClear,
     GameOver,
 }

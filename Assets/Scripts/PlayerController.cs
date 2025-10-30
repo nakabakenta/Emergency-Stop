@@ -13,16 +13,19 @@ public class PlayerController : MonoBehaviour
     private GameObject[] objCamera;   //カメラオブジェクト
     private GameObject nowObj;        //現在のオブジェクト
 
-    public Vector2 [] positionLimit   //座標限界値
-        = new Vector2[2];
-    public float addObjRotation;      //オブジェクトに与える回転値
+    public Vector2 minPos, maxPos;    //最小・大位置
 
+    public float addObjRotation;      //オブジェクトに与える回転値
     public float rotationSpeed;       //回転速度値
     public Vector2 rotationLimit;     //回転限界値
     private Vector2 nowAngle;         //現在の角度
 
+    private float maxDistance = 10f;  // 光の最大距離
+    private LineRenderer lineRenderer;
+
     private void Awake()
     {
+        lineRenderer = this.GetComponent<LineRenderer>();
         objPlaceTimer = 0.0f;
     }
 
@@ -35,24 +38,27 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Stage.status != GameStatus.GameClear.ToString() && Stage.status != GameStatus.GameOver.ToString()) PlayerInput();
+        if(Stage.status != GameStatus.GameClear.ToString() || Stage.status != GameStatus.GameOver.ToString()) PlayerInput();
+
+        if (Stage.nowPutNum == 0 || Stage.status == GameStatus.GameStart.ToString())
+        {
+            lineRenderer.enabled = false;
+        }
     }
 
     void PlayerInput()
     {
         if(Stage.status == null)
         {
-            //マウス位置を画面座標で取得する
-            Vector2 mousePos = Input.mousePosition;
+            Vector2 mousePos = Input.mousePosition;//マウス位置を画面座標で取得する
             //画面座標をビューポート座標に変換する
             Vector2 viewPortPos = Camera.main.ScreenToViewportPoint(mousePos);
-            //移動限界値を設定する
-            viewPortPos.x = Mathf.Clamp(viewPortPos.x, positionLimit[0].x, positionLimit[1].x);
-            viewPortPos.y = Mathf.Clamp(viewPortPos.y, positionLimit[0].y, positionLimit[1].y);
+            //画面限界値を設定する
+            viewPortPos.x = Mathf.Clamp(viewPortPos.x, minPos.x, maxPos.x);
+            viewPortPos.y = Mathf.Clamp(viewPortPos.y, minPos.y, maxPos.y);
             //ビューポート座標をワールド座標に変換する
             Vector3 worldPos = Camera.main.ViewportToWorldPoint(new Vector3(viewPortPos.x, viewPortPos.y, objDistance));
-            //Z軸を固定（オブジェクトのZ軸を調整）
-            worldPos.z = this.transform.position.z - objDistance;
+            worldPos.z = this.transform.position.z - objDistance;//Z軸を固定（オブジェクトのZ軸を調整）
 
             if (Stage.nowPutNum > 0)
             {
@@ -65,22 +71,36 @@ public class PlayerController : MonoBehaviour
                     if (Input.GetMouseButtonDown(2)) nowObj.transform.rotation = Quaternion.identity;//回転を0にする
                     float scrollWheel = Input.GetAxis("Mouse ScrollWheel");                          //マウスホイールの回転量
                     if (scrollWheel != 0) nowObj.transform.rotation *= RotationObject(scrollWheel);
+
+                    // Raycastを実行
+                    if (Physics.Raycast(worldPos, Vector3.down, out RaycastHit hit, maxDistance))
+                    {
+                        // 何かに当たったら、その位置まで線を描く
+                        lineRenderer.SetPosition(0, worldPos);
+                        lineRenderer.SetPosition(1, hit.point);
+                    }
+                    else
+                    {
+                        // 何にも当たらなければ、最大距離まで線を描く
+                        lineRenderer.SetPosition(0, worldPos);
+                        lineRenderer.SetPosition(1, worldPos + Vector3.down * maxDistance);
+                    }
                 } 
             }
         }
         else
         {
             if (nowObj != null) Destroy(nowObj);
-
-            //Wキー
-            if (Input.GetKey(KeyCode.W)) this.transform.position += transform.forward * moveSpeed * Time.deltaTime;
-            //Aキー
-            if (Input.GetKey(KeyCode.A)) this.transform.position -= transform.right * moveSpeed * Time.deltaTime;
-            //Sキー
-            if (Input.GetKey(KeyCode.S)) this.transform.position -= transform.forward * moveSpeed * Time.deltaTime;
-            //Dキー
-            if (Input.GetKey(KeyCode.D)) this.transform.position += transform.right * moveSpeed * Time.deltaTime;
         }
+
+        //Wキー
+        if (Input.GetKey(KeyCode.W)) this.transform.position += transform.forward * moveSpeed * Time.deltaTime;
+        //Aキー
+        if (Input.GetKey(KeyCode.A)) this.transform.position -= transform.right * moveSpeed * Time.deltaTime;
+        //Sキー
+        if (Input.GetKey(KeyCode.S)) this.transform.position -= transform.forward * moveSpeed * Time.deltaTime;
+        //Dキー
+        if (Input.GetKey(KeyCode.D)) this.transform.position += transform.right * moveSpeed * Time.deltaTime;
     }
 
     void ObjSetting(Vector3 pos)

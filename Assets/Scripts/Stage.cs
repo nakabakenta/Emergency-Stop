@@ -3,23 +3,20 @@ using UnityEngine;
 
 public class Stage : MonoBehaviour
 {
-    public int maxPutNum;         //最大設置数
-    public float waitTime;        //待機時間
-    public static float waitTimer;//待機タイマー
-    public static int nowPutNum;  //現在の設置数
-    public static string status;  //状態
-
-    public Transform trainForm;
-    public Transform target;
-
-    private Vector3 startVec;//
+    public int maxPutNum;          //最大設置数
+    public float[] waitTime;       //待機時間
+    public static float waitTimer; //待機タイマー
+    public static int putNum;      //設置数
+    public static int status;      //状態
+    public Transform train, target;
+    private Vector3 startVec;      //
 
     private void Awake()
     {
-        waitTimer = waitTime;
-        nowPutNum = maxPutNum;
-        startVec = target.position - trainForm.position;
-        status = null;
+        status = (int)GameStatus.GameStart;
+        waitTimer = waitTime[status];
+        putNum = maxPutNum;
+        startVec = target.position - train.position;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -62,7 +59,7 @@ public class Stage : MonoBehaviour
 
     void SetDistance()
     {
-        Vector3 targetVec = target.position - trainForm.position;
+        Vector3 targetVec = target.position - train.position;
 
         if (Vector3.Dot(startVec, targetVec) <= 0.0f)
         {
@@ -70,7 +67,7 @@ public class Stage : MonoBehaviour
         }
         else
         {
-            UIStage.uIStage.SetTextDistance(Vector3.Distance(trainForm.position, target.position));
+            UIStage.uIStage.SetTextDistance(Vector3.Distance(train.position, target.position));
         }
     }
 }
