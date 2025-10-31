@@ -1,7 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class PlayerController : MonoBehaviour
 {
@@ -19,6 +18,8 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed;       //回転速度値
     public Vector2 rotationLimit;     //回転限界値
     private Vector2 nowAngle;         //現在の角度
+
+    private GameObject tets;
 
     private float maxDistance = 10f;  // 光の最大距離
     private LineRenderer lineRenderer;
@@ -38,9 +39,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Stage.status != GameStatus.GameClear.ToString() || Stage.status != GameStatus.GameOver.ToString()) PlayerInput();
+        if(Stage.status != (int)GameStatus.GameClear || Stage.status != (int)GameStatus.GameOver) PlayerInput();
 
-        if (Stage.nowPutNum == 0 || Stage.status == GameStatus.GameStart.ToString())
+        if (Stage.putNum == 0 || Stage.status == (int)GameStatus.GameDep)
         {
             lineRenderer.enabled = false;
         }
@@ -48,7 +49,7 @@ public class PlayerController : MonoBehaviour
 
     void PlayerInput()
     {
-        if(Stage.status == null)
+        if(Stage.status == (int)GameStatus.GamePrep)
         {
             Vector2 mousePos = Input.mousePosition;//マウス位置を画面座標で取得する
             //画面座標をビューポート座標に変換する
@@ -60,7 +61,7 @@ public class PlayerController : MonoBehaviour
             Vector3 worldPos = Camera.main.ViewportToWorldPoint(new Vector3(viewPortPos.x, viewPortPos.y, objDistance));
             worldPos.z = this.transform.position.z - objDistance;//Z軸を固定（オブジェクトのZ軸を調整）
 
-            if (Stage.nowPutNum > 0)
+            if (Stage.putNum > 0)
             {
                 //マウス左クリック
                 if (nowObj == null || Input.GetMouseButtonDown(0)) ObjSetting(worldPos);

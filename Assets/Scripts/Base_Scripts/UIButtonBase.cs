@@ -15,11 +15,11 @@ public class UIButtonBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         //Žæ“¾
         button = this.GetComponent<Button>();//Button
 
-        if(GameBase.nowScene == Scene.Menu.ToString())
+        if(GameBase.scene == Scene.Menu.ToString())
         {
             if (uIMenu == null)
             {
-                uIMenu = GameObject.Find("Canvas_" + GameBase.nowScene).GetComponent<UIMenu>();
+                uIMenu = GameObject.Find("Canvas_" + GameBase.scene).GetComponent<UIMenu>();
             }
         }
     }

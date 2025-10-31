@@ -63,14 +63,14 @@ public class TrainFormation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Stage.waitTimer == 0.0f && !stop)
+        if (Stage.status == (int)GameStatus.GameDep && !stop)
         {
             MoveTrain();
         }
 
         if(moveSpeed <= 0.0f && stop)
         {
-            Stage.status = GameStatus.GameClear.ToString();
+            Stage.status = (int)GameStatus.GameClear;
         }
 
         UIStage.uIStage.SetTextSpeed(Function.SetSpeed(moveSpeed));

@@ -8,7 +8,7 @@ public class UIMenu : MonoBehaviour
     public GameObject objUIButtonReturn;
     public TMP_Text buttonText;         //ボタンテキスト
     public static int nowStatus;        //現在の状態
-    private string[] description        //説明
+    private string[] desc               //説明
         = { "プレイするゲームモードを選択します", "ゲーム内で使用したモデルを閲覧できます", "ゲームのオプションを確認できます", "タイトルに戻ります"};
 
     //限られた数のオブジェクトを配置して電車を停車させるモード
@@ -25,7 +25,7 @@ public class UIMenu : MonoBehaviour
 
     private void Awake()
     {
-        GameBase.nowScene = "Menu";//デバック用
+        GameBase.scene = "Menu";//デバック用
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -59,6 +59,6 @@ public class UIMenu : MonoBehaviour
 
     public void SetText(int number)
     {
-        buttonText.text = description[number];
+        buttonText.text = desc[number];
     }
 }

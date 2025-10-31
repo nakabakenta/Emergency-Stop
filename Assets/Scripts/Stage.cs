@@ -1,44 +1,51 @@
+using NUnit.Framework.Internal;
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class Stage : MonoBehaviour
 {
-    public int maxPutNum;          //最大設置数
-    public float[] waitTime;       //待機時間
     public static float waitTimer; //待機タイマー
     public static int putNum;      //設置数
     public static int status;      //状態
+    private float waitTime = 3.0f; //待機時間
     public Transform train, target;
     private Vector3 startVec;      //
 
     private void Awake()
     {
+        //デバック用
+        GameBase.gameMode = 0;
+        GameBase.gameLevel = 0;
+        GameBase.stage = 0;
+
         status = (int)GameStatus.GameStart;
-        waitTimer = waitTime[status];
-        putNum = maxPutNum;
-        startVec = target.position - train.position;
+        waitTimer = waitTime;
+        putNum = GameBase.putNum[GameBase.gameLevel, GameBase.stage];
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        startVec = target.position - train.position;
         SetDistance();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(status == null)
+        if(status < (int)GameStatus.GameDep)
         {
             SetTimer();
         }
-        else if(status == GameStatus.GameStart.ToString())
+        else if(status == (int)GameStatus.GameDep)
         {
             SetDistance();
         }
         else
         {
-            UIStage.uIStage.SetGameStatus(status);
+            GameStatus gameStatus = (GameStatus)status;
+            UIStage.uIStage.SetGameStatus(gameStatus.ToString());
         }
     }
 
@@ -46,8 +53,14 @@ public class Stage : MonoBehaviour
     {
         if (waitTimer <= 0.0f)
         {
-            status = GameStatus.GameStart.ToString();
             waitTimer = 0.0f;
+            status += 1;
+
+            if(status == (int)GameStatus.GamePrep)
+            {
+                waitTimer = GameBase.waitTime[GameBase.gameLevel, GameBase.stage];
+                UIStage.uIStage.SetUIGamePrep();
+            }
         }
         else
         {
@@ -63,7 +76,7 @@ public class Stage : MonoBehaviour
 
         if (Vector3.Dot(startVec, targetVec) <= 0.0f)
         {
-            status = GameStatus.GameOver.ToString();
+            status = (int)GameStatus.GameOver;
         }
         else
         {

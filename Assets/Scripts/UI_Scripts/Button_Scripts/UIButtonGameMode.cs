@@ -16,7 +16,7 @@ public class UIButtonGameMode : UIButtonBase, IPointerClickHandler, IPointerEnte
     {
         if (this.name == setUIButton.objUIButton[nowButton].name)
         {
-            GameBase.nowGameMode = ((GameMode)nowButton).ToString();//現在のボタン番号をゲームモード名に変換する
+            GameBase.gameMode = (int)(GameMode)nowButton;//現在のボタン番号をゲームモード名に変換する
 
             //if(GameBase.gameMode == GameModeName.Normal.ToString())
             //{

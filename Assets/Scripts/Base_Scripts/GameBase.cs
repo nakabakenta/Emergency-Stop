@@ -22,7 +22,15 @@ public enum GameMode
     Free,   //フリー
 }
 
-//ステージ難易度一覧
+//ゲーム難易度
+enum GameLevel
+{
+    Normal,
+    Hard,
+    Expert
+}
+
+//ステージ難易度
 public enum StageLevel
 {
     TestRun,            //
@@ -35,6 +43,7 @@ public enum StageLevel
     MultiTrackDrifting, //
 }
 
+//
 enum GameStatus
 {
     GameStart,//
@@ -53,6 +62,18 @@ public enum TrainStatus
 
 public class GameBase : MonoBehaviour
 {
-    public static string nowScene;   //現在のシーン
-    public static string nowGameMode;//現在のゲームモード
+    public static string scene; //現在のシーン
+    public static int gameMode; //ゲームモード
+    public static int gameLevel;//ゲーム難易度
+    public static int stage;    //ステージ
+    //待機時間(難易度)
+    public static float[,] waitTime      
+        = { { 30, 10, 10, 10, 10, 10, 10, 10 },  //ノーマル
+            { 10, 10, 10, 10, 10, 10, 10, 10 },  //ハード
+            { 10, 10, 10, 10, 10, 10, 10, 10 } };//エキスパート
+
+    public static int[,] putNum
+        = { { 3, 0, 0, 0, 0, 0, 0, 0 },
+            { 3, 0, 0, 0, 0, 0, 0, 0 },
+            { 3, 0, 0, 0, 0, 0, 0, 0 } };
 }

@@ -17,8 +17,8 @@ public class ObjInfo : MonoBehaviour
         BoxCollider collider = obj.GetComponent<BoxCollider>();
         Rigidbody rb = obj.GetComponent<Rigidbody>();
         collider.isTrigger = false; rb.isKinematic = false;
-        Stage.nowPutNum--;
-        UIStage.uIStage.SetTextObject(Stage.nowPutNum);
+        Stage.putNum--;
+        UIStage.uIStage.SetTextObject(Stage.putNum);
 
         return null;
     }
