@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class UIStage : MonoBehaviour
 {
-    public GameObject objUIGameDesc, objUIGamePrep;//UIオブジェクト
+    public GameObject //UIオブジェクト
+        objUIGameDesc,//
+        objUIGamePrep,
+        objUIGameDep;
     public TMP_Text textTimer;     //タイマーテキスト
     public TMP_Text textObject;    //オブジェクトテキスト
     public TMP_Text textSpeed;     //速度テキスト
     public TMP_Text textDistance;  //距離テキスト
     public TMP_Text textGameStatus;//
+    public TMP_Text textPos;       //
     public static UIStage uIStage;
+
     //説明
     private string[] desc
         = { "列車を止めろ",
@@ -32,9 +37,6 @@ public class UIStage : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
-        SetTextObject(Stage.putNum);
-
         Transform[] chilled = objUIGameDesc.GetComponentsInChildren<Transform>();
 
         foreach (Transform transform in chilled)
@@ -79,9 +81,27 @@ public class UIStage : MonoBehaviour
         textGameStatus.text = text;
     }
 
-    public void SetUIGamePrep()
+    public void SetUI(int num)
     {
-        objUIGameDesc.SetActive(false);
-        objUIGamePrep.SetActive(true);
+        switch (num)
+        {
+            case (int)GameStatus.GamePrep:
+                objUIGameDesc.SetActive(false);
+                objUIGamePrep.SetActive(true);
+                break;
+            case (int)GameStatus.GameDep:
+                objUIGamePrep.SetActive(false);
+                objUIGameDep.SetActive(true);
+                break;
+            case (int)GameStatus.GameClear:
+            case (int)GameStatus.GameOver:
+
+                break;
+        }
+    }
+
+    public void SetPos(Vector3 pos)
+    {
+        textPos.text = $"{pos.x:0.00}\n{pos.y:0.00}\n{pos.z:0.00}";
     }
 }

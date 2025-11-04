@@ -29,12 +29,14 @@ public class Stage : MonoBehaviour
     {
         startVec = target.position - train.position;
         SetDistance();
+
+        UIStage.uIStage.SetTextObject(putNum);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(status < (int)GameStatus.GameDep)
+        if (status < (int)GameStatus.GameDep)
         {
             SetTimer();
         }
@@ -47,6 +49,8 @@ public class Stage : MonoBehaviour
             GameStatus gameStatus = (GameStatus)status;
             UIStage.uIStage.SetGameStatus(gameStatus.ToString());
         }
+
+        UIStage.uIStage.SetUI(status);
     }
 
     void SetTimer()
@@ -54,12 +58,12 @@ public class Stage : MonoBehaviour
         if (waitTimer <= 0.0f)
         {
             waitTimer = 0.0f;
-            status += 1;
+            ++status;
 
-            if(status == (int)GameStatus.GamePrep)
+            if (status == (int)GameStatus.GamePrep)
             {
                 waitTimer = GameBase.waitTime[GameBase.gameLevel, GameBase.stage];
-                UIStage.uIStage.SetUIGamePrep();
+                UIStage.uIStage.SetUI(status);
             }
         }
         else

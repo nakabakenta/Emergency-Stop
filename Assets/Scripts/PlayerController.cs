@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.PlayerSettings;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,20 +14,18 @@ public class PlayerController : MonoBehaviour
     private GameObject nowObj;        //現在のオブジェクト
 
     public Vector2 minPos, maxPos;    //最小・大位置
-
     public float addObjRotation;      //オブジェクトに与える回転値
     public float rotationSpeed;       //回転速度値
     public Vector2 rotationLimit;     //回転限界値
     private Vector2 nowAngle;         //現在の角度
-
-    private GameObject tets;
-
-    private float maxDistance = 10f;  // 光の最大距離
+    private float maxDistance = 10f;  //最大距離
     private LineRenderer lineRenderer;
+    private ObjInfo objInfo;
 
     private void Awake()
     {
         lineRenderer = this.GetComponent<LineRenderer>();
+        objInfo = this.GetComponent<ObjInfo>();
         objPlaceTimer = 0.0f;
     }
 
@@ -61,13 +60,16 @@ public class PlayerController : MonoBehaviour
             Vector3 worldPos = Camera.main.ViewportToWorldPoint(new Vector3(viewPortPos.x, viewPortPos.y, objDistance));
             worldPos.z = this.transform.position.z - objDistance;//Z軸を固定（オブジェクトのZ軸を調整）
 
+            UIStage.uIStage.SetPos(worldPos);
+
             if (Stage.putNum > 0)
             {
-                //マウス左クリック
-                if (nowObj == null || Input.GetMouseButtonDown(0)) ObjSetting(worldPos);
+                if (nowObj == null) nowObj = objInfo.ObjGen(worldPos);
                 else
                 {
                     nowObj.transform.position = worldPos;
+                    //マウス左クリック
+                    if (Input.GetMouseButtonDown(0)) nowObj = objInfo.ObjPlace(nowObj);
                     //マウスホイールクリック
                     if (Input.GetMouseButtonDown(2)) nowObj.transform.rotation = Quaternion.identity;//回転を0にする
                     float scrollWheel = Input.GetAxis("Mouse ScrollWheel");                          //マウスホイールの回転量
@@ -102,14 +104,6 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.S)) this.transform.position -= transform.forward * moveSpeed * Time.deltaTime;
         //Dキー
         if (Input.GetKey(KeyCode.D)) this.transform.position += transform.right * moveSpeed * Time.deltaTime;
-    }
-
-    void ObjSetting(Vector3 pos)
-    {
-        ObjInfo objInfo = this.GetComponent<ObjInfo>();
-
-        if (Input.GetMouseButtonDown(0)) nowObj = objInfo.ObjPlace(nowObj);
-        else if (nowObj == null) nowObj = objInfo.ObjGen(pos);
     }
 
     Quaternion RotationObject(float scrollWheel)
