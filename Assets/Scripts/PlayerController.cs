@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     {
         if(Stage.status != (int)GameStatus.GameClear || Stage.status != (int)GameStatus.GameOver) PlayerInput();
 
-        if (Stage.putNum == 0 || Stage.status == (int)GameStatus.GameDep)
+        if (Stage.status == (int)GameStatus.GameDep)
         {
             lineRenderer.enabled = false;
         }
@@ -62,33 +62,30 @@ public class PlayerController : MonoBehaviour
 
             UIStage.uIStage.SetPos(worldPos);
 
-            if (Stage.putNum > 0)
+            if (nowObj == null) nowObj = objInfo.ObjGen(worldPos);
+            else
             {
-                if (nowObj == null) nowObj = objInfo.ObjGen(worldPos);
+                nowObj.transform.position = worldPos;
+                //マウス左クリック
+                if (Input.GetMouseButtonDown(0)) nowObj = objInfo.ObjPlace(nowObj);
+                //マウスホイールクリック
+                if (Input.GetMouseButtonDown(2)) nowObj.transform.rotation = Quaternion.identity;//回転を0にする
+                float scrollWheel = Input.GetAxis("Mouse ScrollWheel");                          //マウスホイールの回転量
+                if (scrollWheel != 0) nowObj.transform.rotation *= RotationObject(scrollWheel);
+
+                // Raycastを実行
+                if (Physics.Raycast(worldPos, Vector3.down, out RaycastHit hit, maxDistance))
+                {
+                    // 何かに当たったら、その位置まで線を描く
+                    lineRenderer.SetPosition(0, worldPos);
+                    lineRenderer.SetPosition(1, hit.point);
+                }
                 else
                 {
-                    nowObj.transform.position = worldPos;
-                    //マウス左クリック
-                    if (Input.GetMouseButtonDown(0)) nowObj = objInfo.ObjPlace(nowObj);
-                    //マウスホイールクリック
-                    if (Input.GetMouseButtonDown(2)) nowObj.transform.rotation = Quaternion.identity;//回転を0にする
-                    float scrollWheel = Input.GetAxis("Mouse ScrollWheel");                          //マウスホイールの回転量
-                    if (scrollWheel != 0) nowObj.transform.rotation *= RotationObject(scrollWheel);
-
-                    // Raycastを実行
-                    if (Physics.Raycast(worldPos, Vector3.down, out RaycastHit hit, maxDistance))
-                    {
-                        // 何かに当たったら、その位置まで線を描く
-                        lineRenderer.SetPosition(0, worldPos);
-                        lineRenderer.SetPosition(1, hit.point);
-                    }
-                    else
-                    {
-                        // 何にも当たらなければ、最大距離まで線を描く
-                        lineRenderer.SetPosition(0, worldPos);
-                        lineRenderer.SetPosition(1, worldPos + Vector3.down * maxDistance);
-                    }
-                } 
+                    // 何にも当たらなければ、最大距離まで線を描く
+                    lineRenderer.SetPosition(0, worldPos);
+                    lineRenderer.SetPosition(1, worldPos + Vector3.down * maxDistance);
+                }
             }
         }
         else

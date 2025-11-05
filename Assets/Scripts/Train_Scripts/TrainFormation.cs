@@ -98,14 +98,17 @@ public class TrainFormation : MonoBehaviour
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + moveSpeed * Time.deltaTime);
     }
 
-    public float Decel(float decel)
+    public float Decel(float decel, int status)
     {
-        moveSpeed -= decel;
-
-        if (moveSpeed <= 0.0f)
+        if(status == (int)TrainStatus.Derailment)
         {
-            moveSpeed = 0.0f;
-            stop = true;
+            moveSpeed -= decel / 3.6f;
+
+            if (moveSpeed <= 0.0f)
+            {
+                moveSpeed = 0.0f;
+                stop = true;
+            }
         }
 
         return moveSpeed;

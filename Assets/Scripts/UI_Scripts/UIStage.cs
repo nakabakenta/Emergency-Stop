@@ -63,7 +63,7 @@ public class UIStage : MonoBehaviour
 
     public void SetTextObject(int num)
     {
-        textObject.text = $"{num:00}";
+        textObject.text = $"{num:000}";
     }
 
     public void SetTextSpeed(float speed)

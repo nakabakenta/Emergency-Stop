@@ -33,10 +33,11 @@ public class TrainBase : MonoBehaviour
     //
     public float CollisionObject(float mass)
     {
-        if(GetComponent<Rigidbody>() == null)
+        if (GetComponent<Rigidbody>() == null)
         {
            Rigidbody rb = this.gameObject.AddComponent<Rigidbody>();
            rb.mass = 5000;
+           rb.constraints = RigidbodyConstraints.FreezePositionY;
         }
 
         if (trainStatus != (int)TrainStatus.Derailment)
@@ -54,6 +55,8 @@ public class TrainBase : MonoBehaviour
                 foreach (Transform obj in this.transform)
                 {
                     obj.gameObject.AddComponent<Rigidbody>();
+                    //Rigidbody rb = obj.gameObject.AddComponent<Rigidbody>();
+                    //rb.constraints = RigidbodyConstraints.FreezePositionY;
                 }
             }
             else
@@ -62,7 +65,7 @@ public class TrainBase : MonoBehaviour
             }
         }
 
-        float moveSpeed = trainFormation.Decel(mass / 3.6f);
+        float moveSpeed = trainFormation.Decel(mass, trainStatus);
 
         return moveSpeed;
     }

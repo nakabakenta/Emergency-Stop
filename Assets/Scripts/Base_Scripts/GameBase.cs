@@ -1,7 +1,7 @@
 using UnityEngine;
 
 //シーン一覧
-public enum Scene
+public enum SceneName
 {
     StartUp,
     Title,
@@ -12,7 +12,7 @@ public enum Scene
     Museum,
 }
 
-//ゲームモード一覧
+//ゲームモード
 public enum GameMode
 {
     Normal, //ノーマル
@@ -20,14 +20,6 @@ public enum GameMode
     Defense,//ディフェンス
     Endless,//エンドレス
     Free,   //フリー
-}
-
-//ゲーム難易度
-enum GameLevel
-{
-    Normal,
-    Hard,
-    Expert
 }
 
 //ステージ難易度
@@ -41,6 +33,21 @@ public enum StageLevel
     LimitedExpress,     //
     SuperLimitedExpress,//
     MultiTrackDrifting, //
+}
+
+//ステージ
+public enum StgaeName
+{
+    MainLine,//本線
+
+}
+
+//ゲーム難易度
+enum GameLevel
+{
+    Normal,//ノーマル
+    Hard,  //ハード
+    Expert //エキスパート
 }
 
 //
@@ -67,13 +74,6 @@ public class GameBase : MonoBehaviour
     public static int gameLevel;//ゲーム難易度
     public static int stage;    //ステージ
     //待機時間(難易度)
-    public static float[,] waitTime      
-        = { { 30, 10, 10, 10, 10, 10, 10, 10 },  //ノーマル
-            { 10, 10, 10, 10, 10, 10, 10, 10 },  //ハード
-            { 10, 10, 10, 10, 10, 10, 10, 10 } };//エキスパート
-
-    public static int[,] putNum
-        = { { 3, 0, 0, 0, 0, 0, 0, 0 },
-            { 3, 0, 0, 0, 0, 0, 0, 0 },
-            { 3, 0, 0, 0, 0, 0, 0, 0 } };
+    public static float[] waitTime
+        = { 30, 20, 15};//ノーマル, ハード, エキスパート
 }

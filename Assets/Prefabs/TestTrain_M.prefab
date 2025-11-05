@@ -275,7 +275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrainBase
   structTrain:
-    trainHp: 100
+    trainHp: 25
     concatLength:
       front: 10
       back: 10
@@ -313,8 +313,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.8, y: 3.69, z: 19.5}
-  m_Center: {x: 0, y: 1.845, z: 0}
+  m_Size: {x: 2.8, y: 2.69, z: 19.5}
+  m_Center: {x: 0, y: 2.345, z: 0}
 --- !u!1 &3928098284671172476
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,7 +15,7 @@ public class UIButtonBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         //Žæ“¾
         button = this.GetComponent<Button>();//Button
 
-        if(GameBase.scene == Scene.Menu.ToString())
+        if(GameBase.scene == SceneName.Menu.ToString())
         {
             if (uIMenu == null)
             {

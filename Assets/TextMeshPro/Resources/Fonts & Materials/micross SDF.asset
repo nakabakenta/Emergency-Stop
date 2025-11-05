@@ -159,9 +159,9 @@ MonoBehaviour:
     atlasWidth: 512
     atlasHeight: 512
     characterSetSelectionMode: 7
-    characterSequence: " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\_\u200B\u2026\u25A1"
+    characterSequence: " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\_\u200B\u2026\u25A1\uFF08\uFF09"
     referencedFontAssetGUID: d46d14c5b4b1c1649ba4e5cde9d7f546
-    referencedTextAssetGUID: 
+    referencedTextAssetGUID: 8f05276190cf498a8153f6cbe761d4e6
     fontStyle: 0
     fontStyleModifier: 0
     renderMode: 4165
@@ -2796,7 +2796,7 @@ Texture2D:
     serializedVersion: 2
     Hash: 00000000000000000000000000000000
   m_IsAlphaChannelOptional: 0
-  serializedVersion: 3
+  serializedVersion: 4
   m_Width: 512
   m_Height: 512
   m_CompleteImageSize: 262144

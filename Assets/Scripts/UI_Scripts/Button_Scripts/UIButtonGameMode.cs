@@ -23,7 +23,7 @@ public class UIButtonGameMode : UIButtonBase, IPointerClickHandler, IPointerEnte
             //    SceneLoader.LoadScene(SceneName.StageSelect.ToString());
             //}
 
-            SceneLoader.LoadScene(Scene.StageSelect.ToString());
+            SceneLoader.LoadScene(SceneName.StageSelect.ToString());
         }
     }
 

@@ -8,7 +8,6 @@ public class Stage : MonoBehaviour
     public static float waitTimer; //待機タイマー
     public static int putNum;      //設置数
     public static int status;      //状態
-    private float waitTime = 3.0f; //待機時間
     public Transform train, target;
     private Vector3 startVec;      //
 
@@ -20,8 +19,7 @@ public class Stage : MonoBehaviour
         GameBase.stage = 0;
 
         status = (int)GameStatus.GameStart;
-        waitTimer = waitTime;
-        putNum = GameBase.putNum[GameBase.gameLevel, GameBase.stage];
+        putNum = 0;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -29,14 +27,12 @@ public class Stage : MonoBehaviour
     {
         startVec = target.position - train.position;
         SetDistance();
-
-        UIStage.uIStage.SetTextObject(putNum);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (status < (int)GameStatus.GameDep)
+        if (status == (int)GameStatus.GamePrep)
         {
             SetTimer();
         }
@@ -58,13 +54,8 @@ public class Stage : MonoBehaviour
         if (waitTimer <= 0.0f)
         {
             waitTimer = 0.0f;
-            ++status;
-
-            if (status == (int)GameStatus.GamePrep)
-            {
-                waitTimer = GameBase.waitTime[GameBase.gameLevel, GameBase.stage];
-                UIStage.uIStage.SetUI(status);
-            }
+            waitTimer = GameBase.waitTime[GameBase.gameLevel];
+            UIStage.uIStage.SetUI(status);
         }
         else
         {
