@@ -370,7 +370,7 @@ TextureImporter:
         height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 64, y: 64, z: 64, w: 64}
       customData: 
       outline: []
       physicsShape: []
@@ -426,6 +426,50 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: UI_Base_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 196
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 64, z: 0, w: 64}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93207fde1068b6d4bb6f4d9a4cb3eb1a
+      internalID: 1588346791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Base_2
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 592
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e09a685c6a689464488e00edb5726154
+      internalID: -1167414711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -446,6 +490,7 @@ TextureImporter:
       UI_Base_02: -1324940193
       UI_Base_03: 1637534317
       UI_Base_07: -589157717
+      UI_Base_1: 1588346791
       UI_Base_10: 1741426029
       UI_Base_11: 1681271183
       UI_Base_12: 1079771948

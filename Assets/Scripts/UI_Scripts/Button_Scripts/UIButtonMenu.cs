@@ -78,7 +78,7 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
 
             if(i == nowButton)
             {
-                rectTransform.localScale = Function.ResetVector3(0.75f);
+                rectTransform.localScale = Function.SetVector3(0.75f);
             }
             else if( i == nowButton + vertical)
             {

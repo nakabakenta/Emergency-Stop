@@ -6,8 +6,9 @@ public class UIStage : MonoBehaviour
 {
     public GameObject //UIオブジェクト
         objUIGameDesc,//
-        objUIGamePrep,
-        objUIGameDep;
+        objUIGamePrep,//
+        objUIGameDep, //
+        objUI;
     public TMP_Text textTimer;     //タイマーテキスト
     public TMP_Text textObject;    //オブジェクトテキスト
     public TMP_Text textSpeed;     //速度テキスト
@@ -45,14 +46,15 @@ public class UIStage : MonoBehaviour
             {
                 TMP_Text text = transform.GetComponent<TMP_Text>();
                 text.text = desc[GameBase.gameMode];
-            }
-            else if(transform.name == "TMP_ClearCond")
-            {
-                TMP_Text text = transform.GetComponent<TMP_Text>();
-                text.text = clearCond[GameBase.gameMode];
-
                 break;
             }
+            //else if(transform.name == "TMP_ClearCond")
+            //{
+            //    TMP_Text text = transform.GetComponent<TMP_Text>();
+            //    text.text = clearCond[GameBase.gameMode];
+
+            //    break;
+            //}
         }
     }
 
