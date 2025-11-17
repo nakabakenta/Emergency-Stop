@@ -1,5 +1,4 @@
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class UIStage : MonoBehaviour
@@ -7,22 +6,22 @@ public class UIStage : MonoBehaviour
     public GameObject //UIオブジェクト
         objUIGameDesc,//
         objUIGamePrep,//
-        objUIGameDep, //
-        objUI;
+        objUIGameDep; //
     public TMP_Text textTimer;     //タイマーテキスト
     public TMP_Text textObject;    //オブジェクトテキスト
     public TMP_Text textSpeed;     //速度テキスト
     public TMP_Text textDistance;  //距離テキスト
     public TMP_Text textGameStatus;//
     public TMP_Text textPos;       //
+    public TMP_Text textClearCond;
+
     public static UIStage uIStage;
 
-    //説明
-    private string[] desc
-        = { "列車を止めろ",
-            "ハイスコアを目指せ",
-            "作業員を守れ",
-            "列車を止めろ" };
+    //ゲームモード
+    private string[,] gameMode
+        = {{ "ノーマル", "スコア", "ディフェンス", "エンドレス" },
+           { "Normal", "Score", "Defense", "Endless" }};
+
     //クリア条件
     private string[] clearCond
         = { "・速度を0kmにする\n・0mまでに停止させる",
@@ -38,24 +37,25 @@ public class UIStage : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //修正予定
         Transform[] chilled = objUIGameDesc.GetComponentsInChildren<Transform>();
 
         foreach (Transform transform in chilled)
         {
-            if (transform.name == "TMP_Desc")
+            if (transform.name == "TMP_GameMode_JP")
             {
                 TMP_Text text = transform.GetComponent<TMP_Text>();
-                text.text = desc[GameBase.gameMode];
+                text.text = gameMode[0, GameBase.gameMode];
+            }
+            if (transform.name == "TMP_GameMode_EN")
+            {
+                TMP_Text text = transform.GetComponent<TMP_Text>();
+                text.text = gameMode[1, GameBase.gameMode];
                 break;
             }
-            //else if(transform.name == "TMP_ClearCond")
-            //{
-            //    TMP_Text text = transform.GetComponent<TMP_Text>();
-            //    text.text = clearCond[GameBase.gameMode];
-
-            //    break;
-            //}
         }
+
+        textClearCond.text = clearCond[GameBase.gameMode];
     }
 
     public void SetTextTimer(float timer)

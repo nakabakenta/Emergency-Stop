@@ -1,6 +1,3 @@
-using NUnit.Framework.Internal;
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Stage : MonoBehaviour
@@ -18,8 +15,9 @@ public class Stage : MonoBehaviour
         GameBase.gameLevel = 0;
         GameBase.stage = 0;
 
-        status = (int)GameStatus.GameStart;
         putNum = 0;
+        status = (int)GameStatus.GameStart;
+        waitTimer = GameBase.waitTime[GameBase.gameLevel];
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -32,7 +30,11 @@ public class Stage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (status == (int)GameStatus.GamePrep)
+        if(status == (int)GameStatus.GameStart)
+        {
+
+        }
+        else if (status == (int)GameStatus.GamePrep)
         {
             SetTimer();
         }
@@ -54,7 +56,7 @@ public class Stage : MonoBehaviour
         if (waitTimer <= 0.0f)
         {
             waitTimer = 0.0f;
-            waitTimer = GameBase.waitTime[GameBase.gameLevel];
+            status++;
             UIStage.uIStage.SetUI(status);
         }
         else

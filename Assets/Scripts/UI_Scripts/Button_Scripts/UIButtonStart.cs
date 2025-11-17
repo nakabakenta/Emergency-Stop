@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class UIButtonStart : UIButtonBase, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IScrollHandler
 {
-    public Image[] imgSignal;    //
-    public Color32 blank;        //‹ó”’F
-    public Color32[] colorSignal;
+    public Image[] imgSignal;     //
+    public Color32 blank;         //‹ó”’F
+    private Color32[] colorSignal;
 
     private void Awake()
     {
