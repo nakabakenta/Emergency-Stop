@@ -1,13 +1,12 @@
-using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UIButtonStart : UIButtonBase, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IScrollHandler
+public class UIButtonStart : UIButtonBase, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public Image[] imgSignal;     //
     public Color32 blank;         //空白色
-    private Color32[] colorSignal;
+    private Color32[] colorSignal;//
 
     private void Awake()
     {
@@ -39,10 +38,7 @@ public class UIButtonStart : UIButtonBase, IPointerClickHandler, IPointerEnterHa
     //クリックされた場合
     public override void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Left)
-        {
-            Stage.status++;
-        }
+        NextStatus(eventData);
     }
 
     void SetButton(float value)

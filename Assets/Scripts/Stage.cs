@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class Stage : MonoBehaviour
 {
-    public static float waitTimer; //待機タイマー
     public static int putNum;      //設置数
     public static int status;      //状態
+    private float waitTimer;       //待機タイマー
     public Transform train, target;
     private Vector3 startVec;      //
 
@@ -57,7 +57,6 @@ public class Stage : MonoBehaviour
         {
             waitTimer = 0.0f;
             status++;
-            UIStage.uIStage.SetUI(status);
         }
         else
         {

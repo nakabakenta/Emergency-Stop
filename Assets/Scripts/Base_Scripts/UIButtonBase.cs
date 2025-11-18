@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static UnityEngine.EventSystems.PointerEventData;
 
 public class UIButtonBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IScrollHandler
 {
@@ -46,5 +46,14 @@ public class UIButtonBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     public virtual void OnScroll(PointerEventData eventData)
     {
 
+    }
+
+    //ç∂É{É^Éìì¸óÕ
+    public void NextStatus(PointerEventData eventData)
+    {
+        if (eventData.button == InputButton.Left)
+        {
+            Stage.status++;
+        }
     }
 }

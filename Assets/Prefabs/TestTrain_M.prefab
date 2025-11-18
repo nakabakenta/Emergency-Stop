@@ -275,7 +275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrainBase
   structTrain:
-    trainHp: 25
+    trainHp: 35
     concatLength:
       front: 10
       back: 10

@@ -1,7 +1,4 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using static UnityEditor.PlayerSettings;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,7 +7,7 @@ public class PlayerController : MonoBehaviour
     public float objPlaceTime;        //オブジェクトの設置時間
     public static float objPlaceTimer;//オブジェクトの設置タイマー
     private int nowCameraMode;        //現在のカメラモード
-    private GameObject[] objCamera;   //カメラオブジェクト
+    public GameObject[] objCamera;    //カメラオブジェクト
     private GameObject nowObj;        //現在のオブジェクト
 
     public Vector2 minPos, maxPos;    //最小・大位置
@@ -43,6 +40,9 @@ public class PlayerController : MonoBehaviour
         if (Stage.status == (int)GameStatus.GameDep)
         {
             lineRenderer.enabled = false;
+
+            objCamera[0].SetActive(false);
+            objCamera[1].SetActive(true);
         }
     }
 
@@ -87,20 +87,20 @@ public class PlayerController : MonoBehaviour
                     lineRenderer.SetPosition(1, worldPos + Vector3.down * maxDistance);
                 }
             }
+
+            //Wキー
+            if (Input.GetKey(KeyCode.W)) this.transform.position += transform.forward * moveSpeed * Time.deltaTime;
+            //Aキー
+            if (Input.GetKey(KeyCode.A)) this.transform.position -= transform.right * moveSpeed * Time.deltaTime;
+            //Sキー
+            if (Input.GetKey(KeyCode.S)) this.transform.position -= transform.forward * moveSpeed * Time.deltaTime;
+            //Dキー
+            if (Input.GetKey(KeyCode.D)) this.transform.position += transform.right * moveSpeed * Time.deltaTime;
         }
         else
         {
             if (nowObj != null) Destroy(nowObj);
         }
-
-        //Wキー
-        if (Input.GetKey(KeyCode.W)) this.transform.position += transform.forward * moveSpeed * Time.deltaTime;
-        //Aキー
-        if (Input.GetKey(KeyCode.A)) this.transform.position -= transform.right * moveSpeed * Time.deltaTime;
-        //Sキー
-        if (Input.GetKey(KeyCode.S)) this.transform.position -= transform.forward * moveSpeed * Time.deltaTime;
-        //Dキー
-        if (Input.GetKey(KeyCode.D)) this.transform.position += transform.right * moveSpeed * Time.deltaTime;
     }
 
     Quaternion RotationObject(float scrollWheel)

@@ -68,11 +68,6 @@ public class TrainFormation : MonoBehaviour
             MoveTrain();
         }
 
-        if(moveSpeed <= 0.0f && stop)
-        {
-            Stage.status = (int)GameStatus.GameClear;
-        }
-
         UIStage.uIStage.SetTextSpeed(Function.SetSpeed(moveSpeed));
     }
 
@@ -100,15 +95,22 @@ public class TrainFormation : MonoBehaviour
 
     public float Decel(float decel, int status)
     {
-        if(status == (int)TrainStatus.Derailment)
-        {
-            moveSpeed -= decel / 3.6f;
+        moveSpeed -= decel / 3.6f;
 
-            if (moveSpeed <= 0.0f)
-            {
-                moveSpeed = 0.0f;
-                stop = true;
-            }
+        if (moveSpeed <= 0.0f)
+        {
+            moveSpeed = 0.0f;
+            stop = true;
+        }
+
+        //if (status == (int)TrainStatus.Derailment)
+        //{
+            
+        //}
+
+        if (moveSpeed <= 0.0f && stop)
+        {
+            Stage.status = (int)GameStatus.GameClear;
         }
 
         return moveSpeed;
