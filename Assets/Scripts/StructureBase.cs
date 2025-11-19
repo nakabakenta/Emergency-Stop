@@ -29,7 +29,7 @@ public class StructureBase : MonoBehaviour
     //“–‚½‚è”»’è(OnCollisionEnter)
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag != "Object")
+        if (collision.gameObject.tag != "Object" && collision.gameObject.tag != "Structure")
         {
             if(this.GetComponent<BoxCollider>() != null)
             {

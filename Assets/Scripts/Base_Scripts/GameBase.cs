@@ -73,7 +73,4 @@ public class GameBase : MonoBehaviour
     public static int gameMode; //ゲームモード
     public static int gameLevel;//ゲーム難易度
     public static int stage;    //ステージ
-    //待機時間(難易度)
-    public static float[] waitTime
-        = { 30, 20, 15};//ノーマル, ハード, エキスパート
 }

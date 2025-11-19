@@ -11,6 +11,7 @@ TagManager:
   - Wiring
   - Pantograph
   - Rail
+  - Structure
   layers:
   - Default
   - TransparentFX

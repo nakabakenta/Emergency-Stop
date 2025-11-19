@@ -8,6 +8,10 @@ public class Stage : MonoBehaviour
     public Transform train, target;
     private Vector3 startVec;      //
 
+    //待機時間(難易度)
+    private float[] waitTime
+        = { 30, 20, 15 };//ノーマル, ハード, エキスパート
+
     private void Awake()
     {
         //デバック用
@@ -17,7 +21,7 @@ public class Stage : MonoBehaviour
 
         putNum = 0;
         status = (int)GameStatus.GameStart;
-        waitTimer = GameBase.waitTime[GameBase.gameLevel];
+        waitTimer = waitTime[GameBase.gameLevel];
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
