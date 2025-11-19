@@ -882,7 +882,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 50, y: 1, z: 50}
+  m_LocalScale: {x: 100, y: 1, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2655,6 +2655,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1934439477}
+  - {fileID: 1816383533}
   - {fileID: 1703770910}
   - {fileID: 1492626394}
   - {fileID: 127930336}
@@ -9482,6 +9483,57 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f886c5c4763542343887f25fc22e3a28, type: 3}
+--- !u!1 &1816383532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1816383533}
+  - component: {fileID: 1816383534}
+  m_Layer: 0
+  m_Name: RailGeneration
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1816383533
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816383532}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 473004777}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1816383534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816383532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38bd65ebeb9f4174aa8fe899ec8db2fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RailGeneration
+  p0: {x: -2, y: 0, z: 500}
+  p3: {x: -2, y: 0, z: -500}
+  p1: {x: -2, y: 0, z: 0}
+  p2: {x: -2, y: 0, z: 0}
+  prefab: {fileID: 7621456243755106574, guid: a4fd078e30248c047b151716c5831f99, type: 3}
+  spacing: 1
+  sampleResolution: 100
 --- !u!1 &1863193694
 GameObject:
   m_ObjectHideFlags: 0
@@ -10100,10 +10152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38bd65ebeb9f4174aa8fe899ec8db2fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RailGeneration
-  p0: {x: 0, y: 0, z: 500}
-  p3: {x: 0, y: 0, z: -500}
-  p1: {x: 0, y: 0, z: 0}
-  p2: {x: 0, y: 0, z: 0}
+  p0: {x: 2, y: 0, z: 500}
+  p3: {x: 2, y: 0, z: -500}
+  p1: {x: 2, y: 0, z: 0}
+  p2: {x: 2, y: 0, z: 0}
   prefab: {fileID: 7621456243755106574, guid: a4fd078e30248c047b151716c5831f99, type: 3}
   spacing: 1
   sampleResolution: 100
@@ -11454,7 +11506,7 @@ PrefabInstance:
       objectReference: {fileID: 346789307}
     - target: {fileID: -411002387201658461, guid: e5942777bfd89734294f0d33d02f9d8c, type: 3}
       propertyPath: distance
-      value: 250
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: -411002387201658461, guid: e5942777bfd89734294f0d33d02f9d8c, type: 3}
       propertyPath: endPosition
@@ -11586,7 +11638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8189772942673933659, guid: e5942777bfd89734294f0d33d02f9d8c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 8189772942673933659, guid: e5942777bfd89734294f0d33d02f9d8c, type: 3}
       propertyPath: m_LocalPosition.y
