@@ -233,6 +233,7 @@ GameObject:
   - component: {fileID: 5274156850955709128}
   - component: {fileID: 3314583043950730651}
   - component: {fileID: 9146570709214616736}
+  - component: {fileID: 3193605701669222064}
   m_Layer: 0
   m_Name: TestTrain_M
   m_TagString: Train
@@ -315,6 +316,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.8, y: 2.69, z: 19.5}
   m_Center: {x: 0, y: 2.345, z: 0}
+--- !u!54 &3193605701669222064
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3902620658564015701}
+  serializedVersion: 5
+  m_Mass: 50000
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &3928098284671172476
 GameObject:
   m_ObjectHideFlags: 0

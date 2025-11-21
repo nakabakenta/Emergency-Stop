@@ -5,29 +5,12 @@ using static UnityEngine.EventSystems.PointerEventData;
 
 public class UIButtonBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IScrollHandler
 {
-    protected Button button;       //Buttonコンポーネント
     public SetUIButton setUIButton;//SetUIButtonスクリプト
-    public static UIMenu uIMenu;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    protected virtual void Start()
-    {
-        //取得
-        button = this.GetComponent<Button>();//Button
-
-        if(GameBase.scene == SceneName.Menu.ToString())
-        {
-            if (uIMenu == null)
-            {
-                uIMenu = GameObject.Find("Canvas_" + GameBase.scene).GetComponent<UIMenu>();
-            }
-        }
-    }
 
     //クリックされた場合
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        
+        if (eventData.button == InputButton.Left) InputButtonLeft();//左ボタン入力
     }
 
     //マウスが重なった場合
@@ -49,11 +32,5 @@ public class UIButtonBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     }
 
     //左ボタン入力
-    public void NextStatus(PointerEventData eventData)
-    {
-        if (eventData.button == InputButton.Left)
-        {
-            Stage.status++;
-        }
-    }
+    public virtual void InputButtonLeft() {}
 }

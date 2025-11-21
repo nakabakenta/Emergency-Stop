@@ -33,13 +33,6 @@ public class TrainBase : MonoBehaviour
     //
     public float CollisionObject(float mass)
     {
-        if (GetComponent<Rigidbody>() == null)
-        {
-           Rigidbody rb = this.gameObject.AddComponent<Rigidbody>();
-           rb.mass = 5000;
-           rb.constraints = RigidbodyConstraints.FreezePositionY;
-        }
-
         if (trainStatus != (int)TrainStatus.Derailment)
         {
             structTrain.trainHp -= mass;

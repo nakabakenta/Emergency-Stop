@@ -12,12 +12,6 @@ public class UIButtonSelection : UIButtonBase, IPointerClickHandler, IPointerEnt
         No,
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    protected override void Start()
-    {
-        base.Start();
-    }
-
     public override void OnPointerClick(PointerEventData eventData)
     {
         if (this.name == setUIButton.objUIButton[(int)ButtonName.Yes].name)
@@ -26,8 +20,7 @@ public class UIButtonSelection : UIButtonBase, IPointerClickHandler, IPointerEnt
         }
         else
         {
-            UIMenu.nowStatus = (int)UIMenu.UIName.Menu;
-            uIMenu.SetMenu();
+            UIMenu.uIMenu.SetMenu((int)UIMenu.UIName.Menu);
         }
     }
 }

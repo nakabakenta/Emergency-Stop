@@ -5,11 +5,16 @@ public class UIMenu : MonoBehaviour
 {
     public GameObject[] objUI;          //UIオブジェクト
     public GameObject objBackGround;    //背景オブジェクト
-    public GameObject objUIButtonReturn;
-    public TMP_Text buttonText;         //ボタンテキスト
-    public static int nowStatus;        //現在の状態
-    private string[] desc               //説明
-        = { "プレイするゲームモードを選択します", "ゲーム内で使用したモデルを閲覧できます", "ゲームのオプションを確認できます", "タイトルに戻ります"};
+    public GameObject objUIButtonBack;
+    public TMP_Text textDes;            //ボタンテキスト
+    private int nowStatus;              //現在の状態
+    private string[] strDesc            //説明
+        = { "プレイするゲームモードを選択します",
+            "ゲーム内で使用したモデルを閲覧できます",
+            "ゲームのオプションを確認できます",
+            "タイトルに戻ります"};
+
+    public static UIMenu uIMenu;
 
     //限られた数のオブジェクトを配置して電車を停車させるモード
     //タイトルに戻りますか？
@@ -25,40 +30,46 @@ public class UIMenu : MonoBehaviour
 
     private void Awake()
     {
+        uIMenu = this.GetComponent<UIMenu>();
         GameBase.scene = "Menu";//デバック用
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
         nowStatus = (int)UIName.Menu;
     }
 
-    public void SetMenu()
+    public void SetMenu(int num)
     {
-        if (nowStatus == (int)UIName.Menu)
+        nowStatus = num;
+
+        for (int index = 0; index < objUI.Length; index++)
         {
-            objUI[(int)UIName.Menu].SetActive(true);
-            objUI[(int)UIName.GameMode].SetActive(false);
-            objUI[(int)UIName.BackToTtle].SetActive(false);
-            objBackGround.SetActive(false);
-            objUIButtonReturn.SetActive(false);
+            if (index == num)
+            {
+                objUI[index].SetActive(true);
+            }
+            else
+            {
+                objUI[index].SetActive(false);
+            }
         }
-        else if (nowStatus == (int)UIName.GameMode)
+
+        if (num == (int)UIName.Menu)
+        {
+            objBackGround.SetActive(false);
+            objUIButtonBack.SetActive(false);
+        }
+        else if (num == (int)UIName.GameMode)
         {
             objUI[(int)UIName.Menu].SetActive(false);
-            objUI[(int)UIName.GameMode].SetActive(true);
-            objUIButtonReturn.SetActive(true);
+            objUIButtonBack.SetActive(true);
         }
-        else if(nowStatus == (int)UIName.BackToTtle)
+        else if(num == (int)UIName.BackToTtle)
         {
-            objUI[(int)UIName.BackToTtle].SetActive(true);
+            objUI[(int)UIName.Menu].SetActive(true);
             objBackGround.SetActive(true);
         }
     }
 
-    public void SetText(int number)
+    public void SetTextDes(int num)
     {
-        buttonText.text = desc[number];
+        textDes.text = strDesc[num];
     }
 }

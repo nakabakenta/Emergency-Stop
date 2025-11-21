@@ -5,12 +5,6 @@ public class UIButtonTest : UIButtonBase, IPointerClickHandler, IPointerEnterHan
 {
     private bool openMenu = false;//メニューを開いたかどうかの可否
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    protected override void Start()
-    {
-        base.Start();
-    }
-
     //クリックされた場合
     public override void OnPointerClick(PointerEventData eventData)
     {

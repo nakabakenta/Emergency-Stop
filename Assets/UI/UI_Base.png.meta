@@ -207,28 +207,6 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Frame_02_Front
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 64
-        width: 512
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a32a11940581c8641b747ad13294faf6
-      internalID: -518878804
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: UI_Frame_03_2
       rect:
         serializedVersion: 2
@@ -246,28 +224,6 @@ TextureImporter:
       bones: []
       spriteID: d7da64db8306e914194f77bda058fd24
       internalID: 1880033094
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: UI_Frame_02_Back
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 128
-        width: 512
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f44d0d7065ff46d4492c02af0082e9ac
-      internalID: -759682431
       vertices: []
       indices: 
       edges: []
@@ -457,7 +413,7 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []

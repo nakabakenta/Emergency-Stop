@@ -9,6 +9,7 @@ public class StructureBase : MonoBehaviour
     {
         [Header("ステータス")]
         public float structureHp;//ストラクチャーの体力
+        public int score;        //スコア
     }
 
     //構造体変数

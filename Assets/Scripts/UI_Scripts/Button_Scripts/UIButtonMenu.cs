@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -15,30 +16,26 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    protected override void Start()
+    void Start()
     {
-        base.Start();
-        uIMenu.SetText(nowButton);
+        UIMenu.uIMenu.SetTextDes(nowButton);
     }
 
-    //ÉNÉäÉbÉNÇ≥ÇÍÇΩèÍçá
-    public override void OnPointerClick(PointerEventData eventData)
+    public override void InputButtonLeft()
     {
         if (this.name == setUIButton.objUIButton[nowButton].name)
         {
             switch (nowButton)
             {
                 case (int)MenuName.GameModeSelect:
-                    UIMenu.nowStatus = nowButton + 1;
-                    uIMenu.SetMenu();
+                    UIMenu.uIMenu.SetMenu(1);
                     break;
                 case (int)MenuName.Museum:
                     break;
                 case (int)MenuName.Option:
                     break;
                 case (int)MenuName.BackToTtle:
-                    UIMenu.nowStatus = nowButton;
-                    uIMenu.SetMenu();
+                    UIMenu.uIMenu.SetMenu(nowButton);
                     break;
             }
         }
@@ -58,9 +55,7 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
 
                 if ((nowButton == (int)MenuName.GameModeSelect && vertical == -1) ||
                     (nowButton == (int)MenuName.BackToTtle && vertical == 1))
-                {
                     return;
-                }
 
                 ButtonScroll(vertical);
             }
@@ -76,17 +71,11 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
             rectTransform.anchoredPosition
                 = new Vector2(rectTransform.anchoredPosition.x + vertical * 100, rectTransform.anchoredPosition.y + vertical * 200);
 
-            if(i == nowButton)
-            {
-                rectTransform.localScale = Function.SetVector3(0.75f);
-            }
-            else if( i == nowButton + vertical)
-            {
-                rectTransform.localScale = Vector3.one;
-            }
+            if (i == nowButton) rectTransform.localScale = Function.SetVector3(0.75f);
+            else if (i == nowButton + vertical) rectTransform.localScale = Vector3.one;
         }
 
         nowButton += vertical;
-        uIMenu.SetText(nowButton);
+        UIMenu.uIMenu.SetTextDes(nowButton);
     }
 }

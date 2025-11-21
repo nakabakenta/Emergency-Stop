@@ -5,12 +5,6 @@ public class UIButtonGameMode : UIButtonBase, IPointerClickHandler, IPointerEnte
 {
     public static int nowButton;//現在のボタン
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    protected override void Start()
-    {
-        base.Start();
-    }
-
     //クリックされた場合
     public override void OnPointerClick(PointerEventData eventData)
     {

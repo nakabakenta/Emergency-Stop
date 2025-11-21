@@ -2,20 +2,22 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed;           //移動速度
-    public float objDistance;         //オブジェクトの距離
-    public float objPlaceTime;        //オブジェクトの設置時間
-    public static float objPlaceTimer;//オブジェクトの設置タイマー
-    private int nowCameraMode;        //現在のカメラモード
-    public GameObject[] objCamera;    //カメラオブジェクト
-    private GameObject nowObj;        //現在のオブジェクト
+    public float moveSpeed;                 //移動速度
+    public float objDistance;               //オブジェクトの距離
+    public float objPlaceTime;              //オブジェクトの設置時間
+    public static float objPlaceTimer;      //オブジェクトの設置タイマー
+    private int nowCameraMode;              //現在のカメラモード
+    public GameObject[] objCamera;          //カメラオブジェクト
+    private GameObject nowObj;              //現在のオブジェクト
+                                            
+    public Vector2 minPos, maxPos;          //最小・大位置
+    public Vector3 minWorldPos, maxWorldPos;//
 
-    public Vector2 minPos, maxPos;    //最小・大位置
-    public float addObjRotation;      //オブジェクトに与える回転値
-    public float rotationSpeed;       //回転速度値
-    public Vector2 rotationLimit;     //回転限界値
-    private Vector2 nowAngle;         //現在の角度
-    private float maxDistance = 10f;  //最大距離
+    public float addObjRotation;            //オブジェクトに与える回転値
+    public float rotationSpeed;             //回転速度値
+    public Vector2 rotationLimit;           //回転限界値
+    private Vector2 nowAngle;               //現在の角度
+    private float maxDistance = 10f;        //最大距離
     private LineRenderer lineRenderer;
     private ObjInfo objInfo;
 
@@ -90,12 +92,27 @@ public class PlayerController : MonoBehaviour
 
             //Wキー
             if (Input.GetKey(KeyCode.W)) this.transform.position += transform.forward * moveSpeed * Time.deltaTime;
-            //Aキー
-            if (Input.GetKey(KeyCode.A)) this.transform.position -= transform.right * moveSpeed * Time.deltaTime;
+
+            if (this.transform.position.x >= maxWorldPos.x)
+            {
+                this.transform.position = new Vector3(maxWorldPos.x, this.transform.position.y, this.transform.position.z);
+            }
+            else
+            {
+                if (Input.GetKey(KeyCode.A)) this.transform.position -= transform.right * moveSpeed * Time.deltaTime;//Aキー
+            }
+
             //Sキー
             if (Input.GetKey(KeyCode.S)) this.transform.position -= transform.forward * moveSpeed * Time.deltaTime;
-            //Dキー
-            if (Input.GetKey(KeyCode.D)) this.transform.position += transform.right * moveSpeed * Time.deltaTime;
+
+            if (this.transform.position.x <= minWorldPos.x)
+            {
+                this.transform.position = new Vector3(minWorldPos.x, this.transform.position.y, this.transform.position.z);
+            }
+            else
+            {
+                if (Input.GetKey(KeyCode.D)) this.transform.position += transform.right * moveSpeed * Time.deltaTime;//Dキー
+            }
         }
         else
         {

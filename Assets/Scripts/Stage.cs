@@ -7,6 +7,7 @@ public class Stage : MonoBehaviour
     private float waitTimer;       //待機タイマー
     public Transform train, target;
     private Vector3 startVec;      //
+    private UIStage uIStage;       
 
     //待機時間(難易度)
     private float[] waitTime
@@ -14,6 +15,8 @@ public class Stage : MonoBehaviour
 
     private void Awake()
     {
+        uIStage = this.GetComponent<UIStage>();
+
         //デバック用
         GameBase.gameMode = 0;
         GameBase.gameLevel = 0;
@@ -22,6 +25,8 @@ public class Stage : MonoBehaviour
         putNum = 0;
         status = (int)GameStatus.GameStart;
         waitTimer = waitTime[GameBase.gameLevel];
+
+        uIStage.SetStartUI(status, GameBase.gameMode);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -49,10 +54,10 @@ public class Stage : MonoBehaviour
         else
         {
             GameStatus gameStatus = (GameStatus)status;
-            UIStage.uIStage.SetGameStatus(gameStatus.ToString());
+            uIStage.SetGameStatus(gameStatus.ToString());
         }
 
-        UIStage.uIStage.SetUI(status);
+        uIStage.SetUI(status);
     }
 
     void SetTimer()
@@ -67,7 +72,7 @@ public class Stage : MonoBehaviour
             waitTimer -= Time.deltaTime;
         }
 
-        UIStage.uIStage.SetTextTimer(waitTimer);
+        uIStage.SetTextTimer(waitTimer);
     }
 
     void SetDistance()
@@ -80,7 +85,7 @@ public class Stage : MonoBehaviour
         }
         else
         {
-            UIStage.uIStage.SetTextDistance(Vector3.Distance(train.position, target.position));
+            uIStage.SetTextDistance(Vector3.Distance(train.position, target.position));
         }
     }
 }

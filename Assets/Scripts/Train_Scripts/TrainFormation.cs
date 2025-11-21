@@ -63,7 +63,7 @@ public class TrainFormation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Stage.status == (int)GameStatus.GameDep && !stop)
+        if (Stage.status >= (int)GameStatus.GameDep && !stop)
         {
             MoveTrain();
         }
