@@ -1,5 +1,5 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class UIEffect : MonoBehaviour
 {
@@ -17,8 +17,8 @@ public class UIEffect : MonoBehaviour
     [System.Serializable]
     public struct UIMove
     {
-        public float moveSpeed;     //移動速度
-        public float minPos, maxPos;//最小・大位置           
+        public float moveSpeed;       //移動速度
+        public float startPos, endPos;//開始・終了位置
     }
 
     private bool isFade = true;   //フェードフラグ
@@ -26,8 +26,8 @@ public class UIEffect : MonoBehaviour
     private float endAlpha = 0f;  //目標透明度
     private float fadeTimer = 0f; //フェードのタイマー
 
-    public UIFade uIFade; //UIフェード構造体
-    public UIMove uIMove; //UI移動構造体
+    public UIFade uIFade;//UIフェード構造体
+    public UIMove uIMove;//UI移動構造体
 
     private TMP_Text text;//テキスト
     private RectTransform thisTransform;
@@ -42,8 +42,8 @@ public class UIEffect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (useFade) Fade();//フェード
-        if (useMove) Move();//移動
+        if (useFade) Fade();                //フェード
+        if (useMove) Move(uIMove.moveSpeed);//移動
     }
 
     void Fade()
@@ -67,13 +67,14 @@ public class UIEffect : MonoBehaviour
         }
     }
 
-    void Move()
+    void Move(float speed)
     {
-        thisTransform.anchoredPosition = new Vector2(thisTransform.anchoredPosition.x + uIMove.moveSpeed * Time.deltaTime, thisTransform.anchoredPosition.y);
+        if (uIMove.startPos >= 0) speed *= -1;
 
-        if (thisTransform.anchoredPosition.x <= uIMove.minPos)
-        {
-            thisTransform.anchoredPosition = new Vector2(uIMove.maxPos, thisTransform.anchoredPosition.y);
-        }
+        thisTransform.anchoredPosition = new Vector2(thisTransform.anchoredPosition.x + speed * Time.deltaTime, thisTransform.anchoredPosition.y);
+
+        if ((uIMove.startPos >= 0 && thisTransform.anchoredPosition.x <= uIMove.endPos) || 
+            (uIMove.startPos <= 0 && thisTransform.anchoredPosition.x >= uIMove.endPos))
+            thisTransform.anchoredPosition = new Vector2(uIMove.startPos, thisTransform.anchoredPosition.y);
     }
 }

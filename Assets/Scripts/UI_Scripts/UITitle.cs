@@ -1,7 +1,11 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UITitle : MonoBehaviour
 {
+    public Image blackout;
+    private int nowStatus;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -11,9 +15,15 @@ public class UITitle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.anyKeyDown)
+        if(nowStatus == 0)
         {
-            SceneLoader.LoadScene(SceneName.Menu.ToString());
+
+
+
+        }
+        else if (nowStatus == 1)
+        {
+            if (Input.anyKeyDown) SceneLoader.LoadScene(SceneName.Menu.ToString());
         }
     }
 }
