@@ -1,5 +1,6 @@
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class UIEffect : MonoBehaviour
 {
@@ -10,7 +11,9 @@ public class UIEffect : MonoBehaviour
     [System.Serializable]
     public struct UIFade
     {
-        public float interval;//フェードの周期(秒)
+        public bool loop;         //ループ
+        public float fadeInterval;//フェードの間隔
+        public float waitInterval;//
     }
 
     //UI移動構造体
@@ -21,28 +24,30 @@ public class UIEffect : MonoBehaviour
         public float startPos, endPos;//開始・終了位置
     }
 
-    private bool isFade = true;   //フェードフラグ
-    private float startAlpha = 1f;//フェード開始時の透明度
-    private float endAlpha = 0f;  //目標透明度
-    private float fadeTimer = 0f; //フェードのタイマー
+    private bool isFade = true, actFade, isWait = false; //フェードフラグ
+    private float startAlpha = 1f, endAlpha = 0f;        //フェード開始時の透明度
+    private float fadeTimer = 0f;                        //フェードのタイマー
 
     public UIFade uIFade;//UIフェード構造体
     public UIMove uIMove;//UI移動構造体
 
+    private Image image;
     private TMP_Text text;//テキスト
     private RectTransform thisTransform;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        TryGetComponent<Image>(out image);
         TryGetComponent<TMP_Text>(out text);
         TryGetComponent<RectTransform>(out thisTransform);
+        actFade = useFade;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (useFade) Fade();                //フェード
+        if (useFade && actFade) Fade();     //フェード
         if (useMove) Move(uIMove.moveSpeed);//移動
     }
 
@@ -51,19 +56,35 @@ public class UIEffect : MonoBehaviour
         //フェードを進める
         fadeTimer += Time.deltaTime;
 
-        //現在の透明度を計算
-        float alpha = Mathf.Lerp(startAlpha, endAlpha, fadeTimer / uIFade.interval);
-        //透明度を設定
-        text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
-
-        // フェードが終わったら、次のフェードに切り替える
-        if (fadeTimer >= uIFade.interval)
+        if (isWait)
         {
-            fadeTimer = 0f;// タイマーをリセット
-            // フェードイン・フェードアウトを切り替える
-            isFade = !isFade;
-            startAlpha = endAlpha;
-            endAlpha = isFade ? 0f : 1f;//目標透明度を切り替え
+            if (fadeTimer >= uIFade.waitInterval)
+            {
+                fadeTimer = 0f;
+                isWait = false;
+            }
+        }
+        else
+        {
+            //現在の透明度を計算
+            float alpha = Mathf.Lerp(startAlpha, endAlpha, fadeTimer / uIFade.fadeInterval);
+
+            if (TryGetComponent<Image>(out image)) image.color = new Color(image.color.r, image.color.g, image.color.b, alpha);//透明度を設定
+            if (TryGetComponent<TMP_Text>(out text)) text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);  //透明度を設定
+
+            // フェードが終わったら、次のフェードに切り替える
+            if (fadeTimer >= uIFade.fadeInterval)
+            {
+                fadeTimer = 0f;// タイマーをリセット
+                               // フェードイン・フェードアウトを切り替える
+                isFade = !isFade;
+                startAlpha = endAlpha;
+                endAlpha = isFade ? 0f : 1f;         //目標透明度を切り替え
+
+                //
+                if (endAlpha == 0) actFade = uIFade.loop ? true : false;
+                if (uIFade.waitInterval > 0) isWait = true;
+            }
         }
     }
 
