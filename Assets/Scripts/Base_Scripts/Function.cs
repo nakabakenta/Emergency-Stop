@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Function : MonoBehaviour
 {
@@ -19,5 +20,12 @@ public class Function : MonoBehaviour
     public static float SetSpeed(float speed)
     {
         return speed * 3.6f;
+    }
+
+    public static bool Timer(float now, float max)
+    {
+        if (now >= max) return true;
+
+        return false;
     }
 }

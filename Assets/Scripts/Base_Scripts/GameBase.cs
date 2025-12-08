@@ -3,7 +3,6 @@ using UnityEngine;
 //ƒV[ƒ“ˆê——
 public enum SceneName
 {
-    StartUp,
     Title,
     Menu,
     StageSelect,

@@ -1,86 +1,114 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public class UITitle : MonoBehaviour
 {
-    public float fadeInterval;
-    public float waitInterval;
+    public float fadeTime, blankTime;
+    public float[] waitTime;
     public Image blackout;
     public GameObject[] objUI;
+    private float timer;
+    private bool isFade = false;
 
-    private readonly int[] fadeCount = { 2, 1 };
-
-    private enum TitleState { Warning, Title }
+    private enum TitleState { Warning, Title, LoadScene }
     private TitleState state = TitleState.Warning;
 
     void Start()
     {
-        StartCoroutine(State());
+        StartCoroutine(FadeLoop());
     }
 
     void Update()
     {
-        // タイトル状態ならキー押下で遷移
-        if (state == TitleState.Title && Input.anyKeyDown) SceneLoader.LoadScene(SceneName.Menu.ToString());
-    }
+        //timer += Time.deltaTime;
 
-    IEnumerator State()
-    {
-        // Warning フェード
-        yield return StartCoroutine(FadeLoop(fadeCount[(int)state]));
+        //if (Function.Timer(timer, waitTime[(int)state]))
+        //{
+        //    timer = 0;
+        //}
 
-        // ★ Title フェードをここで開始
-        //yield return StartCoroutine(FadeLoop(fadeCount[(int)state]));
-    }
-
-    IEnumerator FadeLoop(int count)
-    {
-        for (int i = 0; i < count; i++)
+        switch (state)
         {
-            // ★ 最後のフェードが始まる直前に SetActive を切り替える
-            if (state == TitleState.Warning && i == count - 1)
-            {
-                // 状態変更
-                state = TitleState.Title;
+            case TitleState.Warning:
 
-                // Title UI を表示し Warning UI を非表示
-                for (int index = 0; index < objUI.Length; index++)
+                break;
+            case TitleState.Title:
+                if (Input.anyKeyDown)
                 {
-                    objUI[index].SetActive(index == (int)state);
+                    state = TitleState.LoadScene;
+                    SceneLoader.LoadScene(SceneName.Menu.ToString());
                 }
-            }
 
-            // フェードアウト
-            yield return Fade(1f, 0f, fadeInterval);
-            yield return new WaitForSeconds(waitInterval);
+                if (!isFade) StartCoroutine(FadeLoop());
 
-            // 最後のフェードならここで終了（フェードイン不要）
-            if (i == count - 1) break;
+                break;
+            case TitleState.LoadScene:
 
-            // フェードイン
-            yield return Fade(0f, 1f, fadeInterval);
-            yield return new WaitForSeconds(waitInterval);
+                break;
         }
     }
 
-    IEnumerator Fade(float from, float to, float duration)
+    IEnumerator FadeLoop()
+    {
+        isFade = true;
+
+        switch (state)
+        {
+            case TitleState.Warning:
+                yield return StateWarning();
+                break;
+            case TitleState.Title:
+                yield return StateTitle();
+                break;
+        }
+
+        isFade = false;
+    }
+
+    IEnumerator StateWarning()
+    {
+        yield return Fade(1f, 0f);
+        yield return new WaitForSeconds(waitTime[(int)TitleState.Warning]);
+        yield return Fade(0f, 1f);
+        SetActiveUI(TitleState.Title);
+        yield return new WaitForSeconds(blankTime);
+        yield return Fade(1f, 0f);
+        state = TitleState.Title;
+    }
+
+    IEnumerator StateTitle()
+    {
+        yield return new WaitForSeconds(waitTime[(int)TitleState.Title]);
+        state = TitleState.LoadScene;
+        yield return Fade(0f, 1f);
+        SceneLoader.LoadScene(SceneName.Title.ToString());
+    }
+    
+    void SetActiveUI(TitleState s)
+    {
+        for (int i = 0; i < objUI.Length; i++)
+            objUI[i].SetActive(i == (int)s);
+    }
+
+    IEnumerator Fade(float start, float end)
     {
         float timer = 0f;
         Color c = blackout.color;
 
-        while (timer < duration)
+        while (timer < fadeTime)
         {
-            float t = timer / duration;
-            c.a = Mathf.Lerp(from, to, t);
+            float t = timer / fadeTime;
+            c.a = Mathf.Lerp(start, end, t);
             blackout.color = c;
 
             timer += Time.deltaTime;
             yield return null;
         }
 
-        // 最終値補正
-        c.a = to;
+        c.a = end;
         blackout.color = c;
     }
 }
