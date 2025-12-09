@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class UIEffect : MonoBehaviour
 {
@@ -97,5 +98,31 @@ public class UIEffect : MonoBehaviour
         if ((uIMove.startPos >= 0 && thisTransform.anchoredPosition.x <= uIMove.endPos) || 
             (uIMove.startPos <= 0 && thisTransform.anchoredPosition.x >= uIMove.endPos))
             thisTransform.anchoredPosition = new Vector2(uIMove.startPos, thisTransform.anchoredPosition.y);
+    }
+
+
+    public static void AAA(Graphic ui, float start, float end, float timer, float interval)
+    {
+        float alpha = Mathf.Lerp(start, end, timer / interval);
+        ui.color = new Color(ui.color.r, ui.color.g, ui.color.b, alpha);
+    }
+
+    public static IEnumerator BBB(Image img, float start, float end, float time)
+    {
+        float timer = 0f;
+        Color color = img.color;
+
+        while (timer < time)
+        {
+            float t = timer / time;
+            color.a = Mathf.Lerp(start, end, t);
+            img.color = color;
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        color.a = end;
+        img.color = color;
     }
 }
