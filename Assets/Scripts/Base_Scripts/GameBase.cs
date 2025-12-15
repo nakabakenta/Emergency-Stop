@@ -72,4 +72,10 @@ public class GameBase : MonoBehaviour
     public static int gameMode; //ゲームモード
     public static int gameLevel;//ゲーム難易度
     public static int stage;    //ステージ
+    //音量
+    const int defVol = 75;                      //デフォルト
+    public static int[] audVol                  //マスター, BGM, SE
+        = new int[3] { defVol, defVol, defVol };
+    public static bool[] mute                   //ミュート
+        = new bool[3] { false, false, false };
 }

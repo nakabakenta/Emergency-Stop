@@ -1,12 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IScrollHandler
 {
-    public static int nowButton;//現在のボタン
-
     //メニュー名一覧
-    enum MenuName
+    enum Menu
     {
         GameModeSelect,//ゲームモード選択
         Museum,        //資料館
@@ -14,27 +13,29 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
         BackToTtle,    //タイトルに戻る
     }
 
+    Menu menu = Menu.GameModeSelect;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        UIMenu.uIMenu.SetTextDes(nowButton);
+        UIMenu.uIMenu.SetTextDes((int)menu);
     }
 
     public override void InputButtonLeft()
     {
-        if (this.name == setUIButton.objUIButton[nowButton].name)
+        if (this.name == setUIButton.objUIButton[(int)menu].name)
         {
-            switch (nowButton)
+            switch (menu)
             {
-                case (int)MenuName.GameModeSelect:
+                case Menu.GameModeSelect:
                     UIMenu.uIMenu.SetMenu(1);
                     break;
-                case (int)MenuName.Museum:
+                case Menu.Museum:
                     break;
-                case (int)MenuName.Option:
+                case Menu.Option:
                     break;
-                case (int)MenuName.BackToTtle:
-                    UIMenu.uIMenu.SetMenu(nowButton);
+                case Menu.BackToTtle:
+                    UIMenu.uIMenu.SetMenu((int)menu);
                     break;
             }
         }
@@ -43,7 +44,7 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
     //スクロール操作が行われた場合
     public override void OnScroll(PointerEventData eventData)
     {
-        if (this.name == setUIButton.objUIButton[nowButton].name)
+        if (this.name == setUIButton.objUIButton[(int)menu].name)
         {
             float scrollDelta = eventData.scrollDelta.y;//スクロールの回転量
 
@@ -52,8 +53,8 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
                 //上にスクロールされた場合は-1、それ以外は1
                 int vertical = (scrollDelta > 0) ? -1 : 1;
 
-                if ((nowButton == (int)MenuName.GameModeSelect && vertical == -1) ||
-                    (nowButton == (int)MenuName.BackToTtle && vertical == 1))
+                if ((menu == Menu.GameModeSelect && vertical == -1) ||
+                    (menu == Menu.BackToTtle && vertical == 1))
                     return;
 
                 ButtonScroll(vertical);
@@ -70,11 +71,11 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
             rectTransform.anchoredPosition
                 = new Vector2(rectTransform.anchoredPosition.x + vertical * 100, rectTransform.anchoredPosition.y + vertical * 200);
 
-            if (i == nowButton) rectTransform.localScale = Function.SetVector3(0.75f);
-            else if (i == nowButton + vertical) rectTransform.localScale = Vector3.one;
+            if (i == (int)menu) rectTransform.localScale = Function.SetVector3(0.75f);
+            else if (i == (int)menu + vertical) rectTransform.localScale = Vector3.one;
         }
 
-        nowButton += vertical;
-        UIMenu.uIMenu.SetTextDes(nowButton);
+        menu += vertical;
+        UIMenu.uIMenu.SetTextDes((int)menu);
     }
 }

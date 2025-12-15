@@ -1,7 +1,5 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using static UnityEngine.EventSystems.PointerEventData;
 
 public class UIButtonBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IScrollHandler
 {
@@ -10,7 +8,7 @@ public class UIButtonBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     //クリックされた場合
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button == InputButton.Left) InputButtonLeft();//左ボタン入力
+        if (eventData.button == PointerEventData.InputButton.Left) InputButtonLeft();//左ボタン入力
     }
 
     //マウスが重なった場合
