@@ -1,26 +1,13 @@
-using UnityEngine;
+using System;
 using UnityEngine.EventSystems;
 
 public class UIButtonSelection : UIButtonBase, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    public static int nowButton;//現在のボタン
+    private enum Button { Yes, No }
 
-    //ボタン名一覧
-    enum ButtonName
+    public override void InputButtonLeft(PointerEventData eventData)
     {
-        Yes,
-        No,
-    }
-
-    public override void OnPointerClick(PointerEventData eventData)
-    {
-        if (this.name == setUIButton.objUIButton[(int)ButtonName.Yes].name)
-        {
-            SceneLoader.LoadScene(SceneName.Title.ToString());
-        }
-        else
-        {
-            UIMenu.uIMenu.SetMenu((int)UIMenu.UIName.Menu);
-        }
+        if (eventData.pointerCurrentRaycast.gameObject.transform.IsChildOf(objButton[state].transform) == objButton[(int)Button.Yes].gameObject) SceneLoader.LoadScene(SceneName.Title.ToString());
+        else UIMenu.uIMenu.SetMenu(4);
     }
 }

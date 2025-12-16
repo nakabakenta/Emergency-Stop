@@ -1,14 +1,14 @@
-using UnityEngine;
+using System;
 using TMPro;
+using UnityEditor;
+using UnityEngine;
+using static UIMenu;
 
 public class UIMenu : MonoBehaviour
 {
-    public GameObject[] objUI;          //UIオブジェクト
-    public GameObject objBackGround;    //背景オブジェクト
-    public GameObject objUIButtonBack;
-    public TMP_Text textDes;            //ボタンテキスト
-    private int nowStatus;              //現在の状態
-    private string[] strDesc            //説明
+    public GameObject[] objUI;      //UIオブジェクト
+    public GameObject objBackGround;//背景オブジェクト
+    private string[] strDesc        //説明
         = { "プレイするゲームモードを選択します",
             "ゲーム内で使用したモデルを閲覧できます",
             "ゲームのオプションを確認できます",
@@ -19,57 +19,43 @@ public class UIMenu : MonoBehaviour
     //限られた数のオブジェクトを配置して電車を停車させるモード
     //タイトルに戻りますか？
 
-    //UI名一覧
-    public enum UIName
-    {
-        Menu,
-        GameMode,
-        Option,
-        BackToTtle
-    }
+    //UI一覧
+    public enum UI{ Menu, Museum, Option, BackToTitle, GameMode }
 
     private void Awake()
     {
         uIMenu = this.GetComponent<UIMenu>();
         GameBase.scene = "Menu";//デバック用
-        nowStatus = (int)UIName.Menu;
     }
 
     public void SetMenu(int num)
     {
-        nowStatus = num;
+        objBackGround.SetActive(num == (int)UI.Option || num == (int)UI.BackToTitle);
 
-        for (int index = 0; index < objUI.Length; index++)
+        switch (num)
         {
-            if (index == num)
-            {
-                objUI[index].SetActive(true);
-            }
-            else
-            {
-                objUI[index].SetActive(false);
-            }
-        }
+            case (int)UI.Menu:
+                objUI[0].SetActive(false);
+                objUI[1].SetActive(true);
+                break;
+            case (int)UI.Museum:
 
-        if (num == (int)UIName.Menu)
-        {
-            objBackGround.SetActive(false);
-            objUIButtonBack.SetActive(false);
-        }
-        else if (num == (int)UIName.GameMode)
-        {
-            objUI[(int)UIName.Menu].SetActive(false);
-            objUIButtonBack.SetActive(true);
-        }
-        else if(num == (int)UIName.BackToTtle)
-        {
-            objUI[(int)UIName.Menu].SetActive(true);
-            objBackGround.SetActive(true);
-        }
-    }
+                break;
+            case (int)UI.Option:
+                objUI[0].SetActive(true);
+                objUI[2].SetActive(true);
+                break;
+            case (int)UI.BackToTitle:
+                objUI[0].SetActive(true);
 
-    public void SetTextDes(int num)
-    {
-        textDes.text = strDesc[num];
+                objUI[3].SetActive(true);
+                break;
+            case (int)UI.GameMode:
+                objUI[0].SetActive(true);
+                objUI[1].SetActive(false);
+                objUI[2].SetActive(false);
+                objUI[3].SetActive(false);
+                break;
+        }
     }
 }

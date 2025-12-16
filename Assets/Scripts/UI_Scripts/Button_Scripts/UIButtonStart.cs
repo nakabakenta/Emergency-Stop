@@ -35,7 +35,7 @@ public class UIButtonStart : UIButtonBase, IPointerClickHandler, IPointerEnterHa
         SetButton(1.0f);
     }
 
-    public override void InputButtonLeft()
+    public override void InputButtonLeft(PointerEventData eventData)
     {
         Stage.status++;
     }
