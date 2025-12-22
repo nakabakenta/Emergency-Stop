@@ -1,7 +1,4 @@
-using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class TrainFormation : MonoBehaviour
 {

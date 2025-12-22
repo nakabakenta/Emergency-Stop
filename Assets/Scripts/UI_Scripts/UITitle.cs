@@ -19,8 +19,7 @@ public class UITitle : MonoBehaviour
     private TitleState state = TitleState.Warning;
 
     void Start() => StartCoroutine(Title());
-  
-
+    
     void Update()
     {
         if (state != TitleState.Title) return;

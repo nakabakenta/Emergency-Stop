@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 public class UIButtonBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IScrollHandler
 {
-    protected int state = 0;
+    protected int nowButton = 0;
     protected GameObject[] objButton;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

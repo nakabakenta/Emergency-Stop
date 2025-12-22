@@ -27,4 +27,18 @@ public class Function : MonoBehaviour
 
         return false;
     }
+
+    public static GameObject FindAllChild(Transform parent, string name)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name == name)
+                return child.gameObject;
+
+            GameObject result = FindAllChild(child, name);
+            if (result != null)
+                return result;
+        }
+        return null;
+    }
 }

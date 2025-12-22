@@ -1,8 +1,4 @@
-using System;
-using TMPro;
-using UnityEditor;
 using UnityEngine;
-using static UIMenu;
 
 public class UIMenu : MonoBehaviour
 {

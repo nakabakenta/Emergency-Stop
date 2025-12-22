@@ -7,7 +7,7 @@ public class UIButtonSelection : UIButtonBase, IPointerClickHandler, IPointerEnt
 
     public override void InputButtonLeft(PointerEventData eventData)
     {
-        if (eventData.pointerCurrentRaycast.gameObject.transform.IsChildOf(objButton[state].transform) == objButton[(int)Button.Yes].gameObject) SceneLoader.LoadScene(SceneName.Title.ToString());
+        if (eventData.pointerCurrentRaycast.gameObject.transform.IsChildOf(objButton[nowButton].transform) == objButton[(int)Button.Yes].gameObject) SceneLoader.LoadScene(SceneName.Title.ToString());
         else UIMenu.uIMenu.SetMenu(4);
     }
 }
