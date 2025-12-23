@@ -51,9 +51,6 @@ public class UITitle : MonoBehaviour
         }
         else
         {
-
-
-
             SceneLoader.LoadScene(SceneName.Menu.ToString());
         } 
     }

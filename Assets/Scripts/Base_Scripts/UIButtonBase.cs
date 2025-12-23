@@ -6,20 +6,24 @@ public class UIButtonBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 {
     protected int nowButton = 0;
     protected GameObject[] objButton;
+    protected RectTransform[] rt;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public virtual void Start()
     {
-        List<GameObject> list = new List<GameObject>();
+        var list = new List<GameObject>();
 
-        for (int index = 0; index < this.transform.childCount; index++)
+        foreach (Transform child in transform)
         {
-            GameObject objChild = transform.GetChild(index).gameObject;
-            if (objChild.name == "UI_Button_Back") continue;
-            list.Add(objChild);
+            if (child.name == "UI_Button_Back") continue;
+            list.Add(child.gameObject);
         }
 
         objButton = list.ToArray();
+        rt = new RectTransform[objButton.Length];
+
+        for (int index = 0; index < rt.Length; index++)
+            rt[index] = objButton[index].GetComponent<RectTransform>();
     }
 
     //ÉNÉäÉbÉNÇ≥ÇÍÇΩèÍçá

@@ -1,6 +1,6 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
-using System.Collections;
 
 public class UISplitFlap : MonoBehaviour
 {
@@ -12,16 +12,16 @@ public class UISplitFlap : MonoBehaviour
         = new float[2] { -180, 180 };
     private bool isSplitFlap = false;
 
-    public IEnumerator SplitFlap(int num)
+    public IEnumerator SplitFlap(int num, string argStr)
     {
         if(!isSplitFlap)
         {
             isSplitFlap = true;
 
-            for (int i = 0; i < textB.Length; i++)
+            for (int index = 0; index < textB.Length; index++)
             {
-                if (i > 2) textB[i].text = str[num].ToString();
-                else textB[i].text = str[num].ToString();
+                if (textB[index].name.Contains("En")) textB[index].text = argStr;
+                else textB[index].text = str[num];
             }
 
             float elapsed = 0f;
@@ -44,13 +44,13 @@ public class UISplitFlap : MonoBehaviour
 
                 for (int i = 0; i < maxRotate.Length; i++)
                 {
-                    float newX = Mathf.Lerp(startX[i], targetX[i], timer);
+                    float now = Mathf.Lerp(startX[i], targetX[i], timer);
                     rectTrans[i].localEulerAngles =
-                        new Vector3(newX, startRotate[i].y, startRotate[i].z);
+                        new Vector3(now, startRotate[i].y, startRotate[i].z);
 
-                    if (i == 0 && newX <= -90f)
+                    if (i == 0 && now <= -90f)
                         rectTrans[0].gameObject.SetActive(false);
-                    if (i == 1 && newX >= 180f)
+                    if (i == 1 && now >= 180f)
                         rectTrans[3].gameObject.SetActive(false);
                 }
 
