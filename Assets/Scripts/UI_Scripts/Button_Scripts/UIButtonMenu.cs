@@ -5,13 +5,15 @@ using UnityEngine.UI;
 
 public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IScrollHandler
 {
-    public float scaleTime;
-    public float changeTime;
+    public float scaleTime, scrollTime;
     public Image imgBaseColor;
-    private bool isScroll = false;
+
+    private int nowCursor = other; //現在のカーソル
+    private bool isScroll = false; //スクロール中かどうか
+    private Coroutine nowCoroutine;
+
     private Color32[] colorBase
-        = { new Color32(255, 0, 0, 255), new Color32(0, 191, 0, 255), new Color32(0, 128, 255, 255), new Color32(76, 76, 76, 255) };
-    private Coroutine loopCoroutine;
+       = { new Color32(255, 0, 0, 255), new Color32(0, 191, 0, 255), new Color32(0, 128, 255, 255), new Color32(76, 76, 76, 255) };
 
     private enum Button { GameModeSelect, Museum, Option, BackToTtle }//ボタン一覧
 
@@ -21,49 +23,88 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
         base.Start();
     }
 
+    void Update()
+    {
+        float scroll = Input.GetAxisRaw("Mouse ScrollWheel");
+        Scroll(scroll);
+    }
+
     public override void InputButtonLeft(PointerEventData eventData)
     {
-        if (eventData.pointerCurrentRaycast.gameObject.transform.IsChildOf(objButton[nowButton].transform) && !isScroll) UIMenu.uIMenu.SetMenu(nowButton);
+        if (!isScroll && CheckButton(nowButton, eventData)) UIMenu.uIMenu.SetMenu(nowButton);
     }
 
     public override void OnPointerEnter(PointerEventData eventData)
     {
-        if (eventData.pointerCurrentRaycast.gameObject.transform.IsChildOf(objButton[nowButton].transform) && !isScroll)
-        {
-            StartCoroutine(PingPong());
-        }
+        if (isScroll) return;//スクロール中は無視
+
+        int index = GetButton(eventData);
+        if (index != nowButton) return;  //nowButton以外にマウスが乗っても無視
+
+        nowCursor = nowButton;//現在のカーソルを現在のボタンに設定
+
+        if (nowCoroutine != null) StopCoroutine(nowCoroutine);//既存コルーチンがあれば停止
+
+        // PingPong アニメーション開始
+        nowCoroutine = StartCoroutine(PingPong(nowButton));
     }
 
     public override void OnPointerExit(PointerEventData eventData)
     {
-        if (eventData.pointerCurrentRaycast.gameObject == null || !isScroll) return;
-        if (eventData.pointerCurrentRaycast.gameObject.transform.IsChildOf(objButton[nowButton].transform)) rt[nowButton].localScale = Vector3.one;
+        int index = GetButton(eventData);
+
+        if (nowCursor == nowButton) ResetButton();//nowButtonから出た場合のみリセット
+    }
+
+    private bool CheckButton(int index, PointerEventData eventData)
+    {
+        if (eventData.pointerCurrentRaycast.gameObject == null) return false;
+        return eventData.pointerCurrentRaycast.gameObject.transform.IsChildOf(objButton[index].transform);
+    }
+
+    // マウスがどのボタンにいるか判定するヘルパー
+    private int GetButton(PointerEventData eventData)
+    {
+        if (eventData.pointerCurrentRaycast.gameObject == null) return other;
+
+        for (int index = 0; index < objButton.Length; index++)
+            if (eventData.pointerCurrentRaycast.gameObject.transform.IsChildOf(objButton[index].transform)) return index;
+
+        return other;
+    }
+
+    private void ResetButton()
+    {
+        if (nowCoroutine != null)
+        {
+            StopCoroutine(nowCoroutine);
+            nowCoroutine = null;
+        }
+
+        if (nowCursor != other)
+        {
+            rt[nowCursor].localScale = Vector3.one;//サイズを元に戻す
+            nowCursor = other;
+        }
     }
 
     //スクロール操作が行われた場合
-    public override void OnScroll(PointerEventData eventData)
+    void Scroll(float scroll)
     {
-        if (eventData.pointerCurrentRaycast.gameObject.transform.IsChildOf(objButton[nowButton].transform) && !isScroll)
-        {
-            float scroll = eventData.scrollDelta.y;//スクロールの回転量
+        if (scroll == 0 || isScroll) return;
 
-            if (scroll != 0)
-            {
-                //上にスクロールされた場合は-1、それ以外は1
-                int vertical = (scroll > 0) ? -1 : 1;
+        int vertical = (scroll > 0) ? -1 : 1;
 
-                if ((nowButton == (int)Button.GameModeSelect && vertical == -1) ||
-                    (nowButton == (int)Button.BackToTtle && vertical == 1))
-                    return;
+        if ((nowButton == 0 && vertical == -1) || (nowButton == objButton.Length - 1 && vertical == 1)) return;//上下端チェック
 
-                StartCoroutine(IEScroll(vertical));
-            }
-        }
+        ResetButton();//前のボタンのアニメーションを止めてリセット
+        StartCoroutine(IEScroll(vertical));
     }
 
     public IEnumerator IEScroll(int vertical)
     {
         isScroll = true;
+
         Function.FindAllChild(objButton[nowButton].transform, "UI_Alpha").SetActive(true);
         float timer = 0f;
         int count = objButton.Length;
@@ -79,7 +120,7 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
 
         while (timer < 1f)
         {
-            timer += Time.deltaTime / changeTime;
+            timer += Time.deltaTime / scrollTime;
             float lerp = Mathf.Clamp01(timer);
 
             imgBaseColor.color = Color.Lerp(startColor, endColor, lerp);
@@ -98,15 +139,45 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
         rt[nowButton].localScale = Vector3.one;
         Function.FindAllChild(objButton[nowButton].transform, "UI_Alpha").SetActive(false);
         isScroll = false;
+
+        if (IsPointerOverButton(nowButton))//ここで「マウスが nowButton に重なっているか」をチェック
+        {
+            nowCursor = nowButton;
+            nowCoroutine = StartCoroutine(PingPong(nowButton));
+        }
     }
 
-    IEnumerator PingPong()
+    private bool IsPointerOverButton(int index)
     {
-        yield return ScaleTo(Function.SetVector3(0.75f), Vector3.one);
-        yield return ScaleTo(Function.SetVector3(0.75f), Vector3.one);
+        if (!EventSystem.current.IsPointerOverGameObject()) return false;
+        
+        PointerEventData eventData = new PointerEventData(EventSystem.current)
+        {
+            position = Input.mousePosition
+        };
+
+        var results = new System.Collections.Generic.List<RaycastResult>();//画面上のオブジェクトを raycast
+        EventSystem.current.RaycastAll(eventData, results);
+
+        foreach (var result in results)
+            if (result.gameObject.transform.IsChildOf(objButton[index].transform)) return true;
+
+        return false;
     }
 
-    IEnumerator ScaleTo(Vector3 from, Vector3 to)
+    IEnumerator PingPong(int index)
+    {
+        Vector3 small = Function.SetVector3(0.875f);
+        Vector3 big = Vector3.one;
+
+        while (true)
+        {
+            yield return IEScale(index, big, small);//縮小
+            yield return IEScale(index, small, big);//拡大 
+        }
+    }
+
+    IEnumerator IEScale(int index, Vector3 start, Vector3 end)
     {
         float time = 0f;
 
@@ -115,13 +186,12 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
             time += Time.deltaTime;
             float t = time / scaleTime;
 
-            // SmoothStep（自然な加速減速）
-            t = t * t * (3f - 2f * t);
+            t = t * t * (3f - 2f * t);// SmoothStep（自然な加速減速）
 
-            rt[nowButton].localScale = Vector3.Lerp(from, to, t);
+            rt[index].localScale = Vector3.Lerp(start, end, t);
             yield return null;
         }
 
-        rt[nowButton].localScale = to;
+        rt[index].localScale = end;
     }
 }

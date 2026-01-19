@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 
 public class UIButtonBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IScrollHandler
 {
+    protected const int other = -1;
     protected int nowButton = 0;
     protected GameObject[] objButton;
     protected RectTransform[] rt;
