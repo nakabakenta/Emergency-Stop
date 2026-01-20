@@ -7,6 +7,7 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
 {
     public float scaleTime, scrollTime;
     public Image imgBaseColor;
+    public GameObject objBackGround;
 
     private int nowCursor = other; //現在のカーソル
     private bool isScroll = false; //スクロール中かどうか
@@ -15,7 +16,6 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
     private Color32[] colorBase
        = { new Color32(255, 0, 0, 255), new Color32(0, 191, 0, 255), new Color32(0, 128, 255, 255), new Color32(76, 76, 76, 255) };
 
-    private enum Button { GameModeSelect, Museum, Option, BackToTtle }//ボタン一覧
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public override void Start()
@@ -25,8 +25,11 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
 
     void Update()
     {
-        float scroll = Input.GetAxisRaw("Mouse ScrollWheel");
-        Scroll(scroll);
+        if(!objBackGround.activeSelf)
+        {
+            float scroll = Input.GetAxisRaw("Mouse ScrollWheel");
+            Scroll(scroll);
+        }
     }
 
     public override void InputButtonLeft(PointerEventData eventData)

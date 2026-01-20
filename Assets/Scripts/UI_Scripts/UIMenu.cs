@@ -4,6 +4,9 @@ public class UIMenu : MonoBehaviour
 {
     public GameObject[] objUI;      //UIオブジェクト
     public GameObject objBackGround;//背景オブジェクト
+
+    private enum State { GameModeSelect, Museum, Option, BackToTtle }
+
     private string[] strDesc        //説明
         = { "プレイするゲームモードを選択します",
             "ゲーム内で使用したモデルを閲覧できます",
@@ -43,7 +46,6 @@ public class UIMenu : MonoBehaviour
                 break;
             case (int)UI.BackToTitle:
                 objUI[0].SetActive(true);
-
                 objUI[3].SetActive(true);
                 break;
             case (int)UI.GameMode:
