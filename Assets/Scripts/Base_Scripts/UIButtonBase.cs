@@ -4,10 +4,10 @@ using UnityEngine.EventSystems;
 
 public class UIButtonBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IScrollHandler
 {
-    protected const int other = -1;
-    protected int nowButton = 0;
-    protected GameObject[] objButton;
-    protected RectTransform[] rt;
+    protected const int other = -1;  //ボタン以外
+    protected int nowButton = 0;     //現在のボタン
+    protected GameObject[] objButton;//ボタンオブジェクト
+    protected RectTransform[] rt;    //ボタントランスフォーム
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public virtual void Start()
@@ -53,4 +53,15 @@ public class UIButtonBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     //左ボタン入力
     public virtual void InputButtonLeft(PointerEventData eventData) {}
+
+    //カーソルのボタン取得
+    public int GetButton(PointerEventData eventData)
+    {
+        if (eventData.pointerCurrentRaycast.gameObject == null) return other;
+
+        for (int index = 0; index < objButton.Length; index++)
+            if (eventData.pointerCurrentRaycast.gameObject.transform.IsChildOf(objButton[index].transform)) return index;
+
+        return other;
+    }
 }

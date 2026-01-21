@@ -65,17 +65,6 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
         return eventData.pointerCurrentRaycast.gameObject.transform.IsChildOf(objButton[index].transform);
     }
 
-    // マウスがどのボタンにいるか判定するヘルパー
-    private int GetButton(PointerEventData eventData)
-    {
-        if (eventData.pointerCurrentRaycast.gameObject == null) return other;
-
-        for (int index = 0; index < objButton.Length; index++)
-            if (eventData.pointerCurrentRaycast.gameObject.transform.IsChildOf(objButton[index].transform)) return index;
-
-        return other;
-    }
-
     private void ResetButton()
     {
         if (nowCoroutine != null)
