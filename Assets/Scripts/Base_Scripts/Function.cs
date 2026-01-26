@@ -41,4 +41,13 @@ public class Function : MonoBehaviour
         }
         return null;
     }
+
+    //
+    public static Vector3 AlignRectTransform(RectTransform from, RectTransform target)
+    {
+        Vector3 worldPos = from.TransformPoint(from.rect.center);
+        Vector3 localPos = target.parent.InverseTransformPoint(worldPos);
+
+        return localPos;
+    }
 }

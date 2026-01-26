@@ -55,7 +55,6 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
     public override void OnPointerExit(PointerEventData eventData)
     {
         int index = GetButton(eventData);
-
         if (nowCursor == nowButton) ResetButton();//nowButtonから出た場合のみリセット
     }
 

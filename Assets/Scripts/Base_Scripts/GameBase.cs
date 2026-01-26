@@ -24,10 +24,8 @@ public enum GameMode
 //ステージ難易度
 public enum StageLevel
 {
-    TestRun,            //
     Local,              //
     SemiExpress,        //
-    Rapid,              //
     Express,            //
     LimitedExpress,     //
     SuperLimitedExpress,//
@@ -44,9 +42,9 @@ public enum StgaeName
 //ゲーム難易度
 enum GameLevel
 {
-    Normal,//ノーマル
-    Hard,  //ハード
-    Expert //エキスパート
+    Tutorial,//チュートリアル(試運転)
+    Normal,  //ノーマル      (定刻)
+    Hard,    //ハード        (遅延)
 }
 
 //
@@ -72,10 +70,16 @@ public class GameBase : MonoBehaviour
     public static int gameMode; //ゲームモード
     public static int gameLevel;//ゲーム難易度
     public static int stage;    //ステージ
+
+    public static bool[] stageClear
+        = new bool[6] { false, false, false, false, false, false };
+
     //音量
     const int defVol = 75;                      //デフォルト
     public static int[] audVol                  //マスター, BGM, SE
         = new int[3] { defVol, defVol, defVol };
     public static bool[] mute                   //ミュート
         = new bool[3] { false, false, false };
+
+
 }
