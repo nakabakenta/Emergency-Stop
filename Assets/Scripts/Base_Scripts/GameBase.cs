@@ -39,10 +39,9 @@ public enum StgaeName
 
 }
 
-//ゲーム難易度
+//ゲーム設定
 enum GameLevel
 {
-    Tutorial,//チュートリアル(試運転)
     Normal,  //ノーマル      (定刻)
     Hard,    //ハード        (遅延)
 }
@@ -71,7 +70,9 @@ public class GameBase : MonoBehaviour
     public static int gameLevel;//ゲーム難易度
     public static int stage;    //ステージ
 
-    public static bool[] stageClear
+    public static bool tutorial = true;
+
+    public static bool[] stageClear//ステージクリア
         = new bool[6] { false, false, false, false, false, false };
 
     //音量
@@ -83,3 +84,12 @@ public class GameBase : MonoBehaviour
 
 
 }
+
+//直線、曲線
+//高架、地上、地下
+
+//なし
+//鉄橋（高架）
+//踏切（地上）
+//トンネル（高架、地上）
+//駅（高架、地上、地下）
