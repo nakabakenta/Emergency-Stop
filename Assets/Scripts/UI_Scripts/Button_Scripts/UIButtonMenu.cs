@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IScrollHandler
 {
     public float scaleTime, scrollTime;
-    public Image imgBaseColor;
+    public Image imgMenuColor;
     public GameObject objBackGround;
 
     private int nowCursor = other; //現在のカーソル
@@ -74,7 +74,7 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
 
         if (nowCursor != other)
         {
-            rt[nowCursor].localScale = Vector3.one;//サイズを元に戻す
+            rtButton[nowCursor].localScale = Vector3.one;//サイズを元に戻す
             nowCursor = other;
         }
     }
@@ -100,13 +100,13 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
         float timer = 0f;
         int count = objButton.Length;
         Vector2[] startPos = new Vector2[count], endPos = new Vector2[count];
-        Color startColor = imgBaseColor.color, endColor = colorBase[nowButton + vertical];
+        Color startColor = imgMenuColor.color, endColor = colorBase[nowButton + vertical];
 
         for (int index = 0; index < count; index++)
         {
-            startPos[index] = rt[index].anchoredPosition;
+            startPos[index] = rtButton[index].anchoredPosition;
             endPos[index] = startPos[index] + new Vector2(vertical * 100, vertical * 200);
-            rt[index].localScale = Function.SetVector3(0.75f);
+            rtButton[index].localScale = Function.SetVector3(0.75f);
         }
 
         while (timer < 1f)
@@ -114,20 +114,20 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
             timer += Time.deltaTime / scrollTime;
             float lerp = Mathf.Clamp01(timer);
 
-            imgBaseColor.color = Color.Lerp(startColor, endColor, lerp);
+            imgMenuColor.color = Color.Lerp(startColor, endColor, lerp);
 
             for (int index = 0; index < count; index++)
-                rt[index].anchoredPosition = Vector2.Lerp(startPos[index], endPos[index], lerp);
+                rtButton[index].anchoredPosition = Vector2.Lerp(startPos[index], endPos[index], lerp);
 
             yield return null;
         }
 
         for (int index = 0; index < count; index++)
-            rt[index].anchoredPosition = endPos[index];
+            rtButton[index].anchoredPosition = endPos[index];
 
-        imgBaseColor.color = endColor;
+        imgMenuColor.color = endColor;
         nowButton += vertical;
-        rt[nowButton].localScale = Vector3.one;
+        rtButton[nowButton].localScale = Vector3.one;
         Function.FindAllChild(objButton[nowButton].transform, "UI_Alpha").SetActive(false);
         isScroll = false;
 
@@ -179,10 +179,10 @@ public class UIButtonMenu : UIButtonBase, IPointerClickHandler, IPointerEnterHan
 
             t = t * t * (3f - 2f * t);// SmoothStep（自然な加速減速）
 
-            rt[index].localScale = Vector3.Lerp(start, end, t);
+            rtButton[index].localScale = Vector3.Lerp(start, end, t);
             yield return null;
         }
 
-        rt[index].localScale = end;
+        rtButton[index].localScale = end;
     }
 }

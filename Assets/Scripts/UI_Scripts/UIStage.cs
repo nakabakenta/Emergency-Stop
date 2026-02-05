@@ -1,5 +1,7 @@
 using TMPro;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using static Stage;
 
 public class UIStage : MonoBehaviour
 {
@@ -9,9 +11,10 @@ public class UIStage : MonoBehaviour
     public TMP_Text textObject;      //オブジェクトテキスト
     public TMP_Text textSpeed;       //速度テキスト
     public TMP_Text textDistance;    //距離テキスト
-    public TMP_Text textGameStatus;  //
     public TMP_Text textPos;         //
-    public static UIStage uIStage;   
+    private Stage cSStage;
+
+    public TMP_Text textGameState;
 
     //ゲームモード
     private string[,] strGameMode
@@ -25,10 +28,11 @@ public class UIStage : MonoBehaviour
             "・作業員を守る",
             "・列車の速度を<color=#ff0000>0km</color>にする\n・<color=#ff0000>0m</color>までに列車を停止させる" };
 
-    public void SetStartUI(int num, int gameMode)
+    private string[] strGameState = { "ゲームクリア", "ゲームオーバー" };
+
+    public void SetStartUI(int num, int gameMode, Stage script)
     {
-        //修正予定
-        uIStage = this.GetComponent<UIStage>();
+        cSStage = script;
 
         Transform[] chilled = objUI[num].GetComponentsInChildren<Transform>();
         foreach (Transform transform in chilled)
@@ -36,12 +40,12 @@ public class UIStage : MonoBehaviour
             if (transform.name == "TMP_GameMode_JP")
             {
                 TMP_Text text = transform.GetComponent<TMP_Text>();
-                text.text = strGameMode[0, gameMode];
+                text.text = strGameMode[GameBase.textJP, gameMode];
             }
             if (transform.name == "TMP_GameMode_EN")
             {
                 TMP_Text text = transform.GetComponent<TMP_Text>();
-                text.text = strGameMode[1, gameMode];
+                text.text = strGameMode[GameBase.textEN, gameMode];
                 break;
             }
         }
@@ -78,33 +82,35 @@ public class UIStage : MonoBehaviour
         textDistance.text = $"{distance:0000} m";
     }
 
-    public void SetGameStatus(string text)
+    public void SetGameMenuUI(int num)
     {
-        textGameStatus.text = text;
+        
     }
 
-    public void SetUI(int num)
+    public void SetGameStateUI(int num)
     {
-        for (int index = 0; index < objUI.Length; index++)
+        if (num == (int)GameState.GameClear || num == (int)GameState.GameOver)
         {
-            if(index == num)
-            {
-                objUI[index].SetActive(true);
-            }
-            else
-            {
-                objUI[index].SetActive(false);
-            }
+            textGameState.enabled = true;
+            textGameState.text = strGameState[num - 4];
         }
-
-        switch (num)
+        else
         {
-            case (int)GameStatus.GamePrep:
-                objUIClearCond.SetActive(false);
-                break;
-            case (int)GameStatus.GameClear:
-            case (int)GameStatus.GameOver:
-                break;
+            for (int index = 0; index < objUI.Length; index++)
+            {
+                if (index == num) objUI[index].SetActive(true);
+                else objUI[index].SetActive(false);
+            }
+
+            switch (num)
+            {
+                case (int)GameState.GameStart:
+                    objUIClearCond.SetActive(false);
+                    break;
+                case (int)GameState.GameMenu:
+                    objUIClearCond.SetActive(true);
+                    break;
+            }
         }
     }
 

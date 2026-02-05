@@ -24,22 +24,34 @@ public class TrainBase : MonoBehaviour
     //ç\ë¢ëÃïœêî
     public StructTrain structTrain;//óÒé‘
 
+    public enum TrainState { Normal, Collision, Derailment }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if(trainStatus == (int)TrainState.Derailment)
+        {
+            trainFormation.Derailment(0.01f);
+        }
+    }
+
+
     public void SetTrain(TrainFormation script)
     {
         trainFormation = script;
-        trainStatus = (int)TrainStatus.Normal;
+        trainStatus = (int)TrainState.Normal;
     }
 
     //
     public float CollisionObject(float mass)
     {
-        if (trainStatus != (int)TrainStatus.Derailment)
+        if (trainStatus != (int)TrainState.Derailment)
         {
             structTrain.trainHp -= mass;
 
             if (structTrain.trainHp <= 0)
             {
-                trainStatus = (int)TrainStatus.Derailment;
+                trainStatus = (int)TrainState.Derailment;
                 structTrain.trainHp = 0;
                 Destroy(GetComponent<BoxCollider>());
                 Destroy(GetComponent<Rigidbody>());
@@ -54,11 +66,11 @@ public class TrainBase : MonoBehaviour
             }
             else
             {
-                trainStatus = (int)TrainStatus.Collision;
+                trainStatus = (int)TrainState.Collision;
             }
         }
 
-        float moveSpeed = trainFormation.Decel(mass, trainStatus);
+        float moveSpeed = trainFormation.Decel(mass);
 
         return moveSpeed;
     }

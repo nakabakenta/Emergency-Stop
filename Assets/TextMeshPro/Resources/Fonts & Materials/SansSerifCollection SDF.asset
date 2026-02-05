@@ -159,9 +159,9 @@ MonoBehaviour:
     atlasWidth: 512
     atlasHeight: 512
     characterSetSelectionMode: 7
-    characterSequence: " !\"#$%&'()*+,-./0123456789:;<=>?@[\\]^_`{|}~\_h90km/h"
+    characterSequence: " !\"#$%&'()*+,-./0123456789:;<=>?@[\\]^_`hkm{|}~\_\uFF18"
     referencedFontAssetGUID: ed1859fcd9fd0214b8d3f8a246fe099b
-    referencedTextAssetGUID: 8f05276190cf498a8153f6cbe761d4e6
+    referencedTextAssetGUID: 
     fontStyle: 0
     fontStyleModifier: 0
     renderMode: 4165

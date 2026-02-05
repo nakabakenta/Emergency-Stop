@@ -13,67 +13,32 @@ public enum SceneName
 
 //ゲームモード
 public enum GameMode
-{
-    Normal, //ノーマル
-    Score,  //スコア
-    Defense,//ディフェンス
-    Endless,//エンドレス
-    Free,   //フリー
-}
+{ Normal, Score, Defense, Endless, Free }//ノーマル, スコア, ディフェンス,エンドレス,フリー
 
-//ステージ難易度
-public enum StageLevel
-{
-    Local,              //
-    SemiExpress,        //
-    Express,            //
-    LimitedExpress,     //
-    SuperLimitedExpress,//
-    MultiTrackDrifting, //
-}
+//
+public enum StageLevel { Local, SemiExpress, Express, LimitedExpress, SuperLimitedExpress, MultiTrackDrifting }
 
 //ステージ
 public enum StgaeName
 {
     MainLine,//本線
-
 }
 
 //ゲーム設定
 enum GameLevel
-{
-    Normal,  //ノーマル      (定刻)
-    Hard,    //ハード        (遅延)
-}
+{ Normal, Hard } //ノーマル(定刻), ハード(遅延)
 
-//
-enum GameStatus
-{
-    GameStart,//
-    GamePrep, //準備
-    GameDep,  //発車
-    GameClear,
-    GameOver,
-}
-
-public enum TrainStatus
-{
-    Normal,    //通常
-    Collision, //衝突
-    Derailment,//脱線
-}
+//ステージ状態（未開放, 開放, クリア）
+//public enum StageState { Lock, Unlock, Clear };
 
 public class GameBase : MonoBehaviour
 {
-    public static string scene; //現在のシーン
-    public static int gameMode; //ゲームモード
-    public static int gameLevel;//ゲーム難易度
-    public static int stage;    //ステージ
-
-    public static bool tutorial = true;
-
-    public static bool[] stageClear//ステージクリア
-        = new bool[6] { false, false, false, false, false, false };
+    public static string scene;        //現在のシーン
+    public static int gameMode = 0;    //ゲームモード
+    public static int gameLevel = 0;   //ゲーム難易度
+    public static int stage = 1;       //ステージ
+    public static int totalStage = 4;  //
+    public static bool tutorial = true;//チュートリアル
 
     //音量
     const int defVol = 75;                      //デフォルト
@@ -82,7 +47,18 @@ public class GameBase : MonoBehaviour
     public static bool[] mute                   //ミュート
         = new bool[3] { false, false, false };
 
+    public static Color32 signalNull = new Color32(51, 51, 51, 255);
+    public static Color32 signalRed = new Color32(255, 0, 0, 255);
+    public static Color32 signalBlue = new Color32(0, 223, 63, 255);
 
+    public const int textJP = 0;
+    public const int textEN = 1;
+
+    public static float[] baseSpeed
+        = new float[6] { 90f, 100f, 115f, 130f, 160f, 170f };
+
+    public static int[] formNum
+        = new int[6] { 8, 8, 8, 8, 8, 8};
 }
 
 //直線、曲線

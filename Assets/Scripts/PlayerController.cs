@@ -1,4 +1,6 @@
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using static Stage;
 
 public class PlayerController : MonoBehaviour
 {
@@ -21,11 +23,19 @@ public class PlayerController : MonoBehaviour
     private LineRenderer lineRenderer;
     private ObjInfo objInfo;
 
+    private GameState gameState;
+    private Stage cSStage;
+
     private void Awake()
     {
         lineRenderer = this.GetComponent<LineRenderer>();
         objInfo = this.GetComponent<ObjInfo>();
         objPlaceTimer = 0.0f;
+    }
+
+    public void SetStage(Stage script)
+    {
+        cSStage = script;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -37,9 +47,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Stage.status != (int)GameStatus.GameClear || Stage.status != (int)GameStatus.GameOver) PlayerInput();
+        gameState = cSStage.GetState();
 
-        if (Stage.status == (int)GameStatus.GameDep)
+        if (gameState != GameState.GameClear || gameState != GameState.GameOver) PlayerInput();
+
+        if (gameState == GameState.GameDep)
         {
             lineRenderer.enabled = false;
 
@@ -50,7 +62,10 @@ public class PlayerController : MonoBehaviour
 
     void PlayerInput()
     {
-        if(Stage.status == (int)GameStatus.GamePrep)
+        if(Input.GetKeyDown(KeyCode.Escape) && (gameState == GameState.GameStart || gameState == GameState.GameMenu))
+            cSStage.SetState(gameState == GameState.GameStart ? GameState.GameMenu : GameState.GameStart);
+
+        if (gameState == GameState.GameStart)
         {
             Vector2 mousePos = Input.mousePosition;//マウス位置を画面座標で取得する
             //画面座標をビューポート座標に変換する
@@ -62,14 +77,19 @@ public class PlayerController : MonoBehaviour
             Vector3 worldPos = Camera.main.ViewportToWorldPoint(new Vector3(viewPortPos.x, viewPortPos.y, objDistance));
             worldPos.z = this.transform.position.z - objDistance;//Z軸を固定（オブジェクトのZ軸を調整）
 
-            UIStage.uIStage.SetPos(worldPos);
+            //UIStage.uIStage.SetPos(worldPos);
 
             if (nowObj == null) nowObj = objInfo.ObjGen(worldPos);
             else
             {
                 nowObj.transform.position = worldPos;
                 //マウス左クリック
-                if (Input.GetMouseButtonDown(0)) nowObj = objInfo.ObjPlace(nowObj);
+                if (Input.GetMouseButtonDown(0))
+                {
+                    nowObj = objInfo.ObjPut(nowObj);
+                    cSStage.ObjPut();
+                } 
+
                 //マウスホイールクリック
                 if (Input.GetMouseButtonDown(2)) nowObj.transform.rotation = Quaternion.identity;//回転を0にする
                 float scrollWheel = Input.GetAxis("Mouse ScrollWheel");                          //マウスホイールの回転量

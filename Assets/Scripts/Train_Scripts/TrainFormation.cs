@@ -1,7 +1,10 @@
 using UnityEngine;
+using UnityEngine.Rendering;
+using static Stage;
 
 public class TrainFormation : MonoBehaviour
 {
+    private Stage cSStage;
     public GameObject[] trainPre;         //列車プレハブ
     public float[] accel;                 //加速力
     public float[] brake;                 //減速力
@@ -13,7 +16,9 @@ public class TrainFormation : MonoBehaviour
     private float moveSpeed = 0;
     private GameObject[] objTrain;        //列車オブジェクト
     private TrainFormation trainFormation;//
-    private bool stop = false;
+    private bool isStop = true;
+    private bool isMaxSpeed = false;
+    private GameState gameState;
 
     //列車タイプ一覧
     enum enumTrainType
@@ -57,15 +62,26 @@ public class TrainFormation : MonoBehaviour
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z - distance);
     }
 
+    public void SetStage(Stage script)
+    {
+        cSStage = script;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (Stage.status >= (int)GameStatus.GameDep && !stop)
+        gameState = cSStage.GetState();
+
+        if(gameState == GameState.GameDep)
+        {
+            isStop = cSStage.SetTrainSpeed(moveSpeed, isMaxSpeed);
+            if(isStop) moveSpeed = 0.0f;
+        }
+
+        if (!isStop)
         {
             MoveTrain();
         }
-
-        UIStage.uIStage.SetTextSpeed(Function.SetSpeed(moveSpeed));
     }
 
     void MoveTrain()
@@ -80,6 +96,9 @@ public class TrainFormation : MonoBehaviour
             if (nowAccel == accel.Length - 1 && Function.SetSpeed(moveSpeed) > maxSpeed[nowAccel])
             {
                 moveSpeed = maxSpeed[nowAccel] / 3.6f;
+
+                if(!isMaxSpeed) isMaxSpeed = true;
+                Debug.Log(isMaxSpeed);
             }
         }
         else
@@ -90,24 +109,19 @@ public class TrainFormation : MonoBehaviour
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + moveSpeed * Time.deltaTime);
     }
 
-    public float Decel(float decel, int status)
+    public void Derailment(float value)
     {
-        moveSpeed -= decel / 3.6f;
-
-        if (moveSpeed <= 0.0f)
+        if (gameState == GameState.GameDep && !isStop)
         {
-            moveSpeed = 0.0f;
-            stop = true;
+            moveSpeed -= value / 3.6f;
         }
+    }
 
-        //if (status == (int)TrainStatus.Derailment)
-        //{
-            
-        //}
-
-        if (moveSpeed <= 0.0f && stop)
+    public float Decel(float value)
+    {
+        if(gameState == GameState.GameDep && !isStop)
         {
-            Stage.status = (int)GameStatus.GameClear;
+            moveSpeed -= value / 3.6f;
         }
 
         return moveSpeed;

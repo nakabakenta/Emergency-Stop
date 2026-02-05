@@ -1,4 +1,7 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
+using System.Collections;
+using UnityEngine.UI;
 
 public class Function : MonoBehaviour
 {
